@@ -1,0 +1,976 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Differentialquotient üben</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f6fa; --card:#fff; --ink:#1d2433; --muted:#5b6475; --line:#dfe4ec;
+  --blue:#1f5fbf; --orange:#e67e00; --red:#d62828; --green:#1a9a4b;
+  --okbg:#e7f6ec; --badbg:#fdeaea; --tipbg:#fff6dc; --accent:#1f5fbf;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Nunito,system-ui,-apple-system,"Segoe UI",sans-serif;font-size:17px;line-height:1.45}
+header{background:#fff;border-bottom:1px solid var(--line);padding:12px 18px 10px}
+h1{font-size:1.35rem;margin:0 0 2px;font-weight:800}
+.sub{color:var(--muted);font-size:.9rem}
+nav.pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+button{font-family:inherit;font-size:1rem;touch-action:manipulation;cursor:pointer}
+.pill{min-height:44px;padding:8px 16px;border-radius:22px;border:2px solid var(--line);background:#fff;color:var(--ink);font-weight:700}
+.pill.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.pill small{font-weight:600;opacity:.8}
+.wrap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:18px;padding:16px 18px 40px;max-width:1400px;margin:0 auto}
+.lab{position:sticky;top:10px;align-self:start}
+.labbox{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px}
+#svg{width:100%;height:auto;max-height:74vh;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.panel{margin-top:8px;font-size:.95rem;color:var(--ink);background:#f7f9fc;border-radius:10px;padding:8px 12px;min-height:40px}
+.panel b{font-weight:800}
+.hint-drag{color:var(--muted);font-size:.85rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:14px}
+.card h2{font-size:1.1rem;margin:0 0 8px}
+.formula{background:#eef3fb;border-left:5px solid var(--blue);border-radius:8px;padding:8px 12px;margin:6px 0 4px;overflow-x:auto}
+.levels{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 2px;align-items:center}
+.levels .pill{min-height:40px;padding:6px 14px;font-size:.95rem}
+.count{margin-left:auto;color:var(--muted);font-size:.9rem;font-weight:700}
+.task{font-size:1.05rem}
+.step{border-top:1px dashed var(--line);padding:10px 0 6px}
+.step.done{color:#26402f}
+.step .num{display:inline-block;min-width:26px;height:26px;border-radius:13px;background:var(--accent);color:#fff;text-align:center;font-weight:800;font-size:.85rem;line-height:26px;margin-right:6px}
+.step.done .num{background:var(--green)}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:8px 0;overflow-x:auto}
+input.f{font-family:inherit;font-size:18px;min-height:46px;padding:6px 10px;border:2px solid #b9c3d3;border-radius:10px;min-width:120px;width:200px;max-width:100%}
+input.f.wide{width:300px}
+input.f:focus{outline:none;border-color:var(--accent)}
+input.f.ok{border-color:var(--green);background:var(--okbg)}
+input.f.bad{border-color:var(--red);background:var(--badbg)}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.b{min-height:44px;padding:8px 16px;border-radius:10px;border:2px solid var(--line);background:#fff;font-weight:700;color:var(--ink)}
+.b.main{background:var(--accent);border-color:var(--accent);color:#fff}
+.b.go{background:var(--green);border-color:var(--green);color:#fff}
+.opt{display:block;width:100%;text-align:left;min-height:54px;margin:6px 0;padding:8px 14px;border-radius:10px;border:2px solid var(--line);background:#fff;font-size:1.05rem}
+.opt.ok{border-color:var(--green);background:var(--okbg)}
+.opt.bad{border-color:var(--red);background:var(--badbg)}
+.fb{margin-top:8px;border-radius:10px;padding:8px 12px;display:none}
+.fb.ok{display:block;background:var(--okbg);border-left:5px solid var(--green)}
+.fb.bad{display:block;background:var(--badbg);border-left:5px solid var(--red)}
+.fb.tip{display:block;background:var(--tipbg);border-left:5px solid #e0a800}
+.fb.help{display:block;background:#eef3fb;border-left:5px solid var(--blue)}
+.finish{background:var(--okbg);border:2px solid var(--green);border-radius:12px;padding:12px 14px;margin-top:10px}
+.finish h3{margin:0 0 6px;color:var(--green)}
+.progress{height:10px;background:#e6eaf1;border-radius:5px;overflow:hidden;margin:6px 0 10px}
+.progress>div{height:100%;background:var(--green);transition:width .3s}
+.dots{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}
+.dot{min-width:44px;min-height:40px;border-radius:10px;border:2px solid var(--line);background:#fff;font-weight:800}
+.dot.on{border-color:var(--accent);color:var(--accent)}
+.dot.solved{background:var(--okbg);border-color:var(--green);color:var(--green)}
+.lvl{display:inline-flex;align-items:center;min-width:64px;font-size:.8rem;font-weight:800;text-transform:uppercase;letter-spacing:.03em}
+.lvl-leicht{color:#1a9a4b}.lvl-mittel{color:#c77700}.lvl-schwer{color:#d62828}
+.src{font-size:.85rem;color:var(--muted);margin-bottom:6px}
+.ctx{background:#f7f9fc;border-radius:10px;padding:8px 12px;margin:6px 0}
+.flag{display:inline-block;background:#fff1d6;color:#8a5a00;border-radius:6px;padding:1px 8px;font-size:.8rem;font-weight:700}
+.katex{font-size:1.08em}
+.wrap.nolab{grid-template-columns:minmax(0,820px);justify-content:center}
+.wrap.nolab .lab{display:none}
+.muted{color:var(--muted)}
+@media (hover:hover){.b:hover,.pill:hover,.opt:hover,.dot:hover{filter:brightness(.96)}}
+@media (max-width:860px){
+  .wrap{grid-template-columns:1fr;padding:10px 10px 40px;gap:10px}
+  .lab{position:sticky;top:0;z-index:5}
+  .labbox{padding:6px;border-radius:0 0 14px 14px}
+  #svg{max-height:40vh}
+  .panel{margin-top:4px;padding:5px 10px;font-size:.88rem;min-height:0}
+  header{padding:10px 12px}
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>Differentialquotient üben</h1>
+  <div class="sub">M11 · Differenzenquotient und Differentialquotient</div>
+  <nav class="pills" id="nav">
+    <button class="pill" data-part="x0">① x₀-Methode</button>
+    <button class="pill" data-part="h">② h-Methode</button>
+    <button class="pill" data-part="graph">③ Am Graphen</button>
+    <button class="pill" data-part="abi">④ Abituraufgaben</button>
+    <button class="pill" data-part="rt">⑤ Rechentraining</button>
+  </nav>
+</header>
+<main class="wrap">
+  <section class="lab" id="lab">
+    <div class="labbox">
+      <svg id="svg" xmlns="http://www.w3.org/2000/svg"></svg>
+      <div class="panel" id="panel"></div>
+    </div>
+  </section>
+  <section id="tasks"></section>
+</main>
+<script>
+"use strict";
+/* ================= Hilfsfunktionen ================= */
+const $ = s => document.querySelector(s);
+const T0 = (s, d=false) => katex.renderToString(s, {throwOnError:false, displayMode:d});
+const T = (s, d=false) => { s=String(s); return s.includes('\\neq') ? s.split(/\\neq\s*/).map(p=>T0(p,d)).join(' ≠ ') : T0(s,d); };
+function rnd(n, dp=4){ const r=Math.round(n*10**dp)/10**dp; return Math.abs(r)<1e-12?0:r; }
+function num(n, dp=3){ const r=rnd(n,dp); let s=String(Math.abs(r)).replace('.',','); return (r<0?'−':'')+s; }
+function tn(n, dp=3){ const r=rnd(n,dp); return (r<0?'-':'')+String(Math.abs(r)).replace('.','{,}'); }
+function tnp(n){ return n<0 ? '('+tn(n)+')' : tn(n); }   // negative Zahl in Klammern
+const shuffle = a => { a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
+const pick = a => a[Math.floor(Math.random()*a.length)];
+
+/* Polynome: c[i] ist der Koeffizient von x^i */
+const pe = (c,x) => { let s=0; for(let i=c.length-1;i>=0;i--) s=s*x+c[i]; return s; };
+const pder = c => c.length>1 ? c.slice(1).map((a,i)=>a*(i+1)) : [0];
+function pdivlin(c, x0){ const n=c.length-1; const q=new Array(Math.max(n,1)).fill(0); let r=c[n]; for(let i=n-1;i>=0;i--){ q[i]=r; r=c[i]+r*x0; } return q.map(v=>rnd(v,9)); }
+function binom(n,k){ let r=1; for(let i=1;i<=k;i++) r=r*(n-k+i)/i; return r; }
+function pshift(c, x0){ const d=new Array(c.length).fill(0); for(let i=0;i<c.length;i++) for(let k=0;k<=i;k++) d[k]+=c[i]*binom(i,k)*x0**(i-k); return d.map(v=>rnd(v,9)); }
+const SUP = {2:'²',3:'³',4:'⁴'};
+function polyTex(c, v='x'){
+  let out='';
+  for(let i=c.length-1;i>=0;i--){
+    const a=rnd(c[i],6); if(a===0) continue;
+    const abs=Math.abs(a);
+    let coef = (i>0 && abs===1) ? '' : tn(abs);
+    const pow = i===0 ? '' : (i===1 ? v : v+'^{'+i+'}');
+    const term = coef+pow;
+    if(out==='') out = (a<0?'-':'')+term; else out += (a<0?' - ':' + ')+term;
+  }
+  return out||'0';
+}
+function polyTxt(c, v='x', plainPow=false){
+  let out='';
+  for(let i=c.length-1;i>=0;i--){
+    const a=rnd(c[i],6); if(a===0) continue;
+    const abs=Math.abs(a);
+    let coef = (i>0 && abs===1) ? '' : num(abs).replace('−','');
+    const pow = i===0 ? '' : (i===1 ? v : v+(plainPow?'^'+i:SUP[i]));
+    const term=coef+pow;
+    if(out==='') out=(a<0?'−':'')+term; else out+=(a<0?' − ':' + ')+term;
+  }
+  return out||'0';
+}
+/* f(x0) mit eingesetzter Zahl, z. B. 3^2 + 2\cdot 3 */
+function substNumTex(c, x0){
+  let out='';
+  for(let i=c.length-1;i>=0;i--){
+    const a=rnd(c[i],6); if(a===0) continue;
+    const abs=Math.abs(a);
+    let t;
+    if(i===0) t=tn(abs);
+    else { const base = i===1 ? tnp(x0) : tnp(x0)+'^{'+i+'}'; t = abs===1 ? base : tn(abs)+'\\cdot '+base; }
+    if(out==='') out=(a<0?'-':'')+t; else out+=(a<0?' - ':' + ')+t;
+  }
+  return out||'0';
+}
+/* f(x0+h) mit eingesetztem Term, z. B. (3+h)^2 + 2(3+h) */
+let COLOR_X0=true;
+const CX = v => COLOR_X0 ? '\\textcolor{#c2185b}{'+v+'}' : v;
+function substHTex(c, x0){
+  const inner = x0===0 ? 'h' : '('+CX(tn(x0))+' + h)';
+  let out='';
+  for(let i=c.length-1;i>=0;i--){
+    const a=rnd(c[i],6); if(a===0) continue;
+    const abs=Math.abs(a);
+    let t;
+    if(i===0) t=tn(abs);
+    else { const base = i===1 ? inner : inner+'^{'+i+'}'; t = abs===1 ? base : tn(abs)+(x0===0?'':'\\cdot ')+base; }
+    if(out==='') out=(a<0?'-':'')+t; else out+=(a<0?' - ':' + ')+t;
+  }
+  return out||'0';
+}
+function linTex(x0, v='x'){ return x0===0 ? v : (x0>0 ? v+' - '+tn(x0) : v+' + '+tn(-x0)); }
+function linTxt(x0, v='x'){ return x0===0 ? v : (x0>0 ? v+' − '+num(x0) : v+' + '+num(-x0)); }
+
+/* ---------- Termparser (Komma, −, ², implizites Mal) ---------- */
+function normalize(str){
+  let s=String(str);
+  if(s.includes('=')) s=s.slice(s.lastIndexOf('=')+1);
+  return s.toLowerCase().replace(/[−–—]/g,'-').replace(/[·×∙*]/g,'*').replace(/:/g,'/')
+    .replace(/²/g,'^2').replace(/³/g,'^3').replace(/⁴/g,'^4').replace(/,/g,'.').replace(/\s+/g,'');
+}
+function compile(str, v){
+  const s=normalize(str);
+  if(!s) throw new Error('leer');
+  const toks=[]; let i=0;
+  while(i<s.length){
+    const ch=s[i];
+    if(/[0-9.]/.test(ch)){ let j=i; while(j<s.length && /[0-9.]/.test(s[j])) j++; const t=s.slice(i,j); if(t==='.'||(t.match(/\./g)||[]).length>1) throw new Error('zahl'); toks.push({t:'n',v:parseFloat(t)}); i=j; }
+    else if(ch===v){ toks.push({t:'v'}); i++; }
+    else if('+-*/^()'.includes(ch)){ toks.push({t:ch}); i++; }
+    else throw new Error('zeichen');
+  }
+  let p=0; const pk=()=>toks[p];
+  function expr(){ let a=term(); while(pk() && (pk().t==='+'||pk().t==='-')){ const op=toks[p++].t; const b=term(); const A=a; a = op==='+' ? x=>A(x)+b(x) : x=>A(x)-b(x); } return a; }
+  function term(){ let a=unary(); for(;;){ const k=pk(); if(!k) break;
+      if(k.t==='*'||k.t==='/'){ p++; const b=unary(); const A=a; a = k.t==='*' ? x=>A(x)*b(x) : x=>A(x)/b(x); }
+      else if(k.t==='n'||k.t==='v'||k.t==='('){ const b=power(); const A=a; a=x=>A(x)*b(x); }
+      else break; } return a; }
+  function unary(){ if(pk()&&pk().t==='-'){ p++; const a=unary(); return x=>-a(x); } if(pk()&&pk().t==='+'){ p++; return unary(); } return power(); }
+  function power(){ const b=atom(); if(pk()&&pk().t==='^'){ p++; const e=unary(); return x=>Math.pow(b(x),e(x)); } return b; }
+  function atom(){ const k=toks[p++]; if(!k) throw new Error('ende');
+    if(k.t==='n'){ const val=k.v; return ()=>val; }
+    if(k.t==='v') return x=>x;
+    if(k.t==='('){ const a=expr(); if(!pk()||pk().t!==')') throw new Error('klammer'); p++; return a; }
+    throw new Error('unerwartet'); }
+  const f=expr(); if(p<toks.length) throw new Error('rest'); return f;
+}
+function parseNum(str){ try{ const v=compile(str,'§')(0); return isFinite(v)?v:NaN; }catch(e){ return NaN; } }
+const PTS=[-2.37,-0.71,0.43,1.29,2.83,3.61,5.17];
+function sameFn(f,g,skip){ return PTS.every(x=>{ if(skip!==undefined && Math.abs(x-skip)<1e-6) return true; const a=f(x), b=g(x); return isFinite(a)&&isFinite(b)&&Math.abs(a-b)<1e-6*(1+Math.abs(b)); }); }
+const close = (a,b,tol=1e-6) => isFinite(a) && Math.abs(a-b)<=tol+1e-9;
+
+/* ================= Grafik ================= */
+const svg=$('#svg'), panel=$('#panel');
+let VIEW=null, viewFn=null;
+const S=40;
+function setView(fn){ viewFn=fn; $('.wrap').classList.toggle('nolab',!fn); VIEW=null; redraw(); }
+function redraw(){
+  if(!viewFn){ return; }
+  VIEW=viewFn();
+  const v=VIEW; if(!v){ return; }
+  const W=(v.xmax-v.xmin)*S, H=(v.ymax-v.ymin)*S;
+  const X=x=>(x-v.xmin)*S, Y=y=>(v.ymax-y)*S;
+  let g='';
+  g+=`<defs><clipPath id="clip"><rect x="0" y="0" width="${W}" height="${H}"/></clipPath></defs>`;
+  g+=`<rect x="0" y="0" width="${W}" height="${H}" fill="#fff"/>`;
+  // Kästchenraster
+  for(let k=Math.ceil(v.xmin*2);k<=Math.floor(v.xmax*2);k++){ const x=k/2; g+=`<line x1="${X(x)}" y1="0" x2="${X(x)}" y2="${H}" stroke="${k%2?'#e9eef5':'#cfd8e6'}" stroke-width="1"/>`; }
+  for(let k=Math.ceil(v.ymin*2);k<=Math.floor(v.ymax*2);k++){ const y=k/2; g+=`<line x1="0" y1="${Y(y)}" x2="${W}" y2="${Y(y)}" stroke="${k%2?'#e9eef5':'#cfd8e6'}" stroke-width="1"/>`; }
+  // Achsen
+  const ax='#222';
+  if(v.ymin<0&&v.ymax>0){ g+=`<line x1="0" y1="${Y(0)}" x2="${W-2}" y2="${Y(0)}" stroke="${ax}" stroke-width="1.6"/><polygon points="${W},${Y(0)} ${W-11},${Y(0)-5} ${W-11},${Y(0)+5}" fill="${ax}"/>`;
+    g+=`<text x="${W-8}" y="${Y(0)+20}" font-size="15" font-style="italic" text-anchor="end">${v.xname||'x'}</text>`; }
+  if(v.xmin<0&&v.xmax>0){ g+=`<line x1="${X(0)}" y1="${H}" x2="${X(0)}" y2="2" stroke="${ax}" stroke-width="1.6"/><polygon points="${X(0)},0 ${X(0)-5},11 ${X(0)+5},11" fill="${ax}"/>`;
+    g+=`<text x="${X(0)+9}" y="14" font-size="15" font-style="italic">${v.yname||'y'}</text>`; }
+  const stepL = (v.xmax-v.xmin)>12 ? 2 : 1;
+  if(v.ymin<0&&v.ymax>0) for(let x=Math.ceil(v.xmin+0.01);x<v.xmax-0.4;x++){ if(x===0||x%stepL) continue; g+=`<line x1="${X(x)}" y1="${Y(0)-4}" x2="${X(x)}" y2="${Y(0)+4}" stroke="${ax}"/><text x="${X(x)}" y="${Y(0)+17}" font-size="12.5" text-anchor="middle" fill="#333">${x<0?'−'+(-x):x}</text>`; }
+  const stepLy = (v.ymax-v.ymin)>12 ? 2 : 1;
+  if(v.xmin<0&&v.xmax>0) for(let y=Math.ceil(v.ymin+0.01);y<v.ymax-0.4;y++){ if(y===0||y%stepLy) continue; g+=`<line x1="${X(0)-4}" y1="${Y(y)}" x2="${X(0)+4}" y2="${Y(y)}" stroke="${ax}"/><text x="${X(0)-7}" y="${Y(y)+4}" font-size="12.5" text-anchor="end" fill="#333">${y<0?'−'+(-y):y}</text>`; }
+  if(v.xmin<0&&v.ymin<0) g+=`<text x="${X(0)-6}" y="${Y(0)+16}" font-size="12.5" text-anchor="end" fill="#333">0</text>`;
+  g+=`<g clip-path="url(#clip)">`;
+  // Geraden (Sekante/Tangente)
+  (v.lines||[]).forEach(l=>{ const y1=l.y0+l.m*(v.xmin-l.x0), y2=l.y0+l.m*(v.xmax-l.x0);
+    g+=`<line x1="0" y1="${Y(y1)}" x2="${W}" y2="${Y(y2)}" stroke="${l.color}" stroke-width="${l.w||2.4}" ${l.dash?'stroke-dasharray="7 5"':''}/>`; });
+  // Kurven
+  (v.curves||[]).forEach(c=>{ let d='', pen=false; const N=400;
+    for(let i=0;i<=N;i++){ const x=v.xmin+(v.xmax-v.xmin)*i/N, y=c.f(x);
+      if(!isFinite(y)||y<v.ymin-20||y>v.ymax+20){ pen=false; continue; }
+      d+=(pen?'L':'M')+X(x).toFixed(1)+' '+Y(y).toFixed(1); pen=true; }
+    g+=`<path d="${d}" fill="none" stroke="${c.color}" stroke-width="${c.w||3}" opacity="${c.op||1}" ${c.dash?'stroke-dasharray="8 6"':''}/>`; });
+  // Steigungsdreiecke
+  (v.tris||[]).forEach(t=>{ const dx=t.dx||1; const x1=t.x, y1=t.y, x2=t.x+dx, y2=t.y+t.m*dx;
+    g+=`<polyline points="${X(x1)},${Y(y1)} ${X(x2)},${Y(y1)} ${X(x2)},${Y(y2)}" fill="none" stroke="${t.color}" stroke-width="2" stroke-dasharray="5 4"/>`;
+    g+=`<text x="${(X(x1)+X(x2))/2}" y="${Y(y1)+(t.m>=0?17:-7)}" font-size="14" font-weight="700" fill="${t.color}" text-anchor="middle" paint-order="stroke" stroke="#fff" stroke-width="4">${num(dx)}</text>`;
+    if(t.showM!==false) g+=`<text x="${X(x2)+6}" y="${(Y(y1)+Y(y2))/2+5}" font-size="14" font-weight="700" fill="${t.color}" paint-order="stroke" stroke="#fff" stroke-width="4">${num(t.m*dx)}</text>`; });
+  // Hilfslinien
+  (v.segs||[]).forEach(s=>{ g+=`<line x1="${X(s.x1)}" y1="${Y(s.y1)}" x2="${X(s.x2)}" y2="${Y(s.y2)}" stroke="${s.color||'#888'}" stroke-width="${s.w||1.5}" ${s.dash!==false?'stroke-dasharray="4 4"':''}/>`; });
+  g+=`</g>`;
+  // Punkte als Kreuze
+  (v.crosses||[]).forEach(p=>{ if(p.y<v.ymin-0.2||p.y>v.ymax+0.2) return; const cx=X(p.x), cy=Y(p.y), r=p.big?8:6.5, col=p.color||'#111';
+    if(p.halo) g+=`<circle cx="${cx}" cy="${cy}" r="20" fill="${p.halo}" opacity=".18"/>`;
+    g+=`<path d="M${cx-r} ${cy-r}L${cx+r} ${cy+r}M${cx-r} ${cy+r}L${cx+r} ${cy-r}" stroke="${col}" stroke-width="${p.big?3.2:2.6}" stroke-linecap="round"/>`;
+    if(p.label){ const dx=p.ldx??10, dy=p.ldy??-10; g+=`<text x="${cx+dx}" y="${cy+dy}" font-size="15" font-weight="800" fill="${col}" text-anchor="${dx<0?'end':'start'}" paint-order="stroke" stroke="#fff" stroke-width="4">${p.label}</text>`; } });
+  // Beschriftungen der Funktionen (oben links)
+  g+='<rect id="lblbox" x="0" y="0" width="0" height="0" rx="6" fill="#fff" fill-opacity=".93" stroke="#cfd8e6"/>';
+  const nl=(v.labels||[]).length; let ly=(v.ymax>0&&v.ymax<2.2&&v.ymin<-4) ? H-12-22*(nl-1) : 22;
+  (v.labels||[]).forEach(l=>{ g+=`<text class="lbl" x="12" y="${ly}" font-size="15" font-weight="700" fill="${l.color}">${italX(l.text)}</text>`; ly+=22; });
+  svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+  svg.style.maxWidth=Math.round(W*1.45)+'px'; svg.style.margin='0 auto';
+  svg.innerHTML=g;
+  try{ const ls=[...svg.querySelectorAll('text.lbl')]; if(ls.length){ let x1=1e9,y1=1e9,x2=-1e9,y2=-1e9; ls.forEach(t=>{const b=t.getBBox(); x1=Math.min(x1,b.x);y1=Math.min(y1,b.y);x2=Math.max(x2,b.x+b.width);y2=Math.max(y2,b.y+b.height);}); const r=svg.querySelector('#lblbox'); r.setAttribute('x',x1-6); r.setAttribute('y',y1-4); r.setAttribute('width',x2-x1+12); r.setAttribute('height',y2-y1+8); } }catch(_){}
+  panel.innerHTML=v.panel||'';
+}
+function italX(s){ return s.replace(/(^|[\s(:↦−+])([a-z])(?=$|[\s:²³)↦,])/g, (m,a,b)=>`${a}<tspan font-style="italic">${b}</tspan>`); }
+function svgPt(e){ const pt=svg.createSVGPoint(); pt.x=e.clientX; pt.y=e.clientY; const q=pt.matrixTransform(svg.getScreenCTM().inverse()); return {x:VIEW.xmin+q.x/S, y:VIEW.ymax-q.y/S, px:q.x, py:q.y}; }
+let dragging=false;
+svg.addEventListener('pointerdown',e=>{ if(!VIEW) return; if(VIEW.drag){ dragging=true; svg.setPointerCapture(e.pointerId); moveDrag(e); } });
+svg.addEventListener('pointermove',e=>{ if(dragging) moveDrag(e); });
+svg.addEventListener('pointerup',e=>{ if(dragging){ dragging=false; moveDrag(e); try{svg.releasePointerCapture(e.pointerId);}catch(_){} if(VIEW.drag.end) VIEW.drag.end(); return; }
+  if(VIEW&&VIEW.tap){ const p=svgPt(e); let best=null, bd=1e9; VIEW.tap.pts.forEach(t=>{ const d=Math.hypot((t.x-VIEW.xmin)*S-p.px,(VIEW.ymax-t.y)*S-p.py); if(d<bd){bd=d;best=t;} }); if(best&&bd<45) VIEW.tap.on(best); } });
+svg.addEventListener('pointercancel',()=>{dragging=false;});
+function moveDrag(e){ const d=VIEW.drag; const p=svgPt(e); let x=Math.round(p.x/d.snap)*d.snap; x=Math.max(d.min,Math.min(d.max,x)); d.set(rnd(x,6), p.y); redraw(); }
+function autoRange(f, x0, half=4){
+  const xmin=Math.floor(x0-half), xmax=Math.ceil(x0+half);
+  let lo=Infinity, hi=-Infinity; for(let i=0;i<=80;i++){ const y=f(xmin+(xmax-xmin)*i/80); lo=Math.min(lo,y); hi=Math.max(hi,y); }
+  const y0=f(x0); lo=Math.max(lo,y0-6); hi=Math.min(hi,y0+6);
+  let ymin=Math.floor(Math.min(lo,0)-1), ymax=Math.ceil(Math.max(hi,0)+1);
+  if(ymax-ymin<8){ const add=8-(ymax-ymin); ymax+=Math.ceil(add/2); ymin-=Math.floor(add/2); }
+  return {xmin:Math.min(xmin,-1), xmax:Math.max(xmax,1), ymin, ymax};
+}
+
+/* ================= Aufgaben-Ablauf (Schritte) ================= */
+/* step: {q, fields:[{pre,post,kind:'num'|'expr',wide}], mc:[{html,ok,msg}], check(vals)->{ok,msg}, tip, help, sol:[strings], solve(), done} */
+let RUN=null;
+function Runner(el, task){
+  this.el=el; this.t=task; this.i=0; this.fails=0; this.finished=false; RUN=this; this.render();
+}
+Runner.prototype.render=function(){
+  const t=this.t; let h=`<div class="task">${t.head||''}</div>`;
+  t.steps.forEach((s,k)=>{
+    if(k<this.i){ h+=`<div class="step done"><span class="num">✓</span>${s.done||s.q}</div>`; }
+    else if(k===this.i){
+      h+=`<div class="step"><span class="num">${k+1}</span>${s.q}`;
+      if(s.fields){ h+=`<div class="row">`; s.fields.forEach((f,j)=>{ h+=`${f.pre||''}<input class="f ${f.wide?'wide':''}" data-j="${j}" inputmode="${f.kind==='num'?'decimal':'text'}" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="${f.ph||''}">${f.post||''}`; }); h+=`</div>`; }
+      if(s.mc){ s._order=s._order||shuffle(s.mc.map((_,j)=>j)); h+=s._order.map(j=>`<button class="opt" data-o="${j}">${s.mc[j].html}</button>`).join(''); }
+      h+=`<div class="btns">`;
+      if(!s.mc) h+=`<button class="b main" data-a="check">${s.checkLabel||'Prüfen'}</button>`;
+      if(s.tip) h+=`<button class="b" data-a="tip">💡 Tipp</button>`;
+      if(s.help) h+=`<button class="b" data-a="help">🔍 Hilfe</button>`;
+      if(this.fails>=2 && s.sol) h+=`<button class="b" data-a="sol">Lösung anzeigen</button>`;
+      h+=`</div><div class="fb" id="fb"></div></div>`;
+    }
+  });
+  if(this.i>=t.steps.length){ this.finished=true; h+=`<div class="finish">${t.finish?t.finish():''}</div>`; }
+  this.el.innerHTML=h;
+  const s=t.steps[this.i];
+  this.el.querySelectorAll('input.f').forEach(inp=>{ inp.addEventListener('keydown',e=>{ if(e.key==='Enter' && !e.ctrlKey && !e.metaKey){ e.preventDefault(); this.check(); } }); });
+  this.el.querySelectorAll('[data-a]').forEach(b=>b.addEventListener('click',()=>{ const a=b.dataset.a;
+    if(a==='check') this.check(); else if(a==='tip') this.fb('tip','💡 '+s.tip); else if(a==='help') this.fb('help','🔍 '+s.help); else if(a==='sol') this.fillSol(); }));
+  this.el.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>this.choose(+b.dataset.o, b)));
+  if(t.bind) t.bind(this.el);
+  if(s && s.enter && !s._entered){ s._entered=true; s.enter(); }
+  redraw();
+};
+Runner.prototype.fb=function(cls,html){ const f=this.el.querySelector('#fb'); if(!f) return; f.className='fb '+cls; f.innerHTML=html; };
+Runner.prototype.vals=function(){ return [...this.el.querySelectorAll('input.f')].map(i=>i.value.trim()); };
+Runner.prototype.check=function(){
+  const s=this.t.steps[this.i]; if(!s||s.mc) return;
+  const vals=this.vals();
+  if(s.fields && vals.some(v=>v==='')){ this.fb('bad','Bitte zuerst etwas eingeben.'); return; }
+  const r=s.check(vals);
+  const inputs=this.el.querySelectorAll('input.f');
+  if(r.ok){ inputs.forEach(i=>i.className=i.className.replace(/ ?(ok|bad)/g,'')+' ok'); this.success(r.msg); }
+  else { this.fails++; inputs.forEach(i=>i.className=i.className.replace(/ ?(ok|bad)/g,'')+' bad'); const extra=(this.fails===2&&s.sol)?'<br><span class="muted">Du kannst dir jetzt auch die Lösung anzeigen lassen.</span>':''; if(this.fails===2&&s.sol){ const keep=this.vals(); this.render(); this.el.querySelectorAll('input.f').forEach((inp,j)=>{inp.value=keep[j]; inp.classList.add('bad');}); } this.fb('bad','✗ '+r.msg+extra); }
+};
+Runner.prototype.choose=function(j,btn){
+  const s=this.t.steps[this.i]; const o=s.mc[j];
+  if(o.ok){ btn.classList.add('ok'); this.success(o.msg); }
+  else { btn.classList.add('bad'); this.fails++; this.fb('bad','✗ '+(o.msg||'Leider nicht.')); }
+};
+Runner.prototype.success=function(msg){
+  const s=this.t.steps[this.i];
+  this.fb('ok','✓ '+(msg||'Richtig!'));
+  this.el.querySelectorAll('.btns .b, .opt, input.f').forEach(b=>b.disabled=true);
+  if(s.onOk) s.onOk();
+  redraw();
+  setTimeout(()=>{ if(RUN!==this || this.t.steps[this.i]!==s) return; this.i++; this.fails=0; this.render(); this.focus(); }, 900);
+};
+Runner.prototype.focus=function(){ const inp=this.el.querySelector('input.f'); if(inp && !matchMedia('(pointer:coarse)').matches) inp.focus(); };
+Runner.prototype.fillSol=function(){
+  const s=this.t.steps[this.i]; if(!s) return;
+  if(s.mc){ const j=s.mc.findIndex(o=>o.ok); const b=this.el.querySelector(`.opt[data-o="${j}"]`); if(b) this.choose(j,b); return; }
+  if(s.solve) s.solve();
+  if(s.sol) this.el.querySelectorAll('input.f').forEach((inp,j)=>inp.value=s.sol[j]);
+  this.check();
+};
+Runner.prototype.solveNext=function(){ if(this.finished){ if(this.t.next) this.t.next(); return; } const s=this.t.steps[this.i]; if(this._busy) return; this.fillSol(); };
+
+/* typische Rückmeldungen für Terme */
+function exprCheck(str, v, expected, opts={}){
+  let f; try{ f=compile(str,v); }catch(e){ return {ok:false,msg:`Das kann ich nicht lesen. Schreibe z. B. <b>${v==='x'?'2x + 3':'6h + h^2'}</b> oder <b>${v}^2</b> bzw. <b>${v}²</b>, Kommazahlen mit Komma.`}; }
+  const s=normalize(str);
+  const ok=sameFn(f,expected,opts.skip);
+  if(ok){
+    if(opts.noParen && s.includes('(')) return {ok:false, msg:'Der Wert stimmt, aber du sollst die Klammern noch <b>ausmultiplizieren</b>.'};
+    if(opts.noFrac && s.includes('/')) return {ok:false, msg:'Der Wert stimmt, aber schreibe den Term <b>ohne Bruch</b>: Kürze zuerst.'};
+    return {ok:true};
+  }
+  for(const w of (opts.wrong||[])) if(sameFn(f,w.f,opts.skip)) return {ok:false,msg:w.msg};
+  const px=opts.probe; const yours=f(px), right=expected(px);
+  return {ok:false, msg:(opts.generic||'Noch nicht richtig.')+(isFinite(yours)?` <span class="muted">Probe mit ${T(v+'='+tn(px))}: dein Term ergibt ${T(tn(yours))}, richtig wäre ${T(tn(right))}.</span>`:'')};
+}
+
+/* ================= Teil 1 und 2: x₀- und h-Methode ================= */
+const POOL={
+  leicht:[{c:[1,2],xs:[1,3,-2]},{c:[2,-3],xs:[1,2,-1]},{c:[0,0,1],xs:[1,2,3,-1,-2]},{c:[0,0,2],xs:[1,2,-1,3]},{c:[0,0,0.5],xs:[2,-2,4,1]},{c:[0,0,-1],xs:[1,2,-3]},{c:[0,0,0,1],xs:[1,2,-1]}],
+  mittel:[{c:[0,2,1],xs:[1,2,-1,3]},{c:[0,-4,1],xs:[1,3,-1]},{c:[3,0,1],xs:[1,2,-2]},{c:[1,0,-1],xs:[1,2,-1]},{c:[0,1,0,1],xs:[1,-1,2]},{c:[0,0,0,0.5],xs:[2,-2,1]},{c:[0,-3,0,1],xs:[1,2,-1]},{c:[2,0,0,-1],xs:[1,2,-1]}],
+  schwer:[{c:[-1,4,-1],xs:[1,3,-1]},{c:[0,-3,2],xs:[1,2,-1]},{c:[2,1,-0.5],xs:[2,-2,4]},{c:[0,0,-1,1],xs:[1,2,-1]},{c:[0,2,-3,1],xs:[1,2,-1]},{c:[1,0,0,0.5],xs:[2,-2]},{c:[0,0,0,0,1],xs:[1,-1,2]},{c:[1,0,-2,0,0.5],xs:[1,2,-1]},{c:[0,1,0,0,-1],xs:[1,-1]}]
+};
+const ST={ x0:{level:'leicht',solved:0,last:null}, h:{level:'leicht',solved:0,last:null} };
+function newCase(mode){
+  const st=ST[mode]; let c, x0, key;
+  for(let k=0;k<20;k++){ const e=pick(POOL[st.level]); x0=pick(e.xs); c=e.c; key=c.join()+'|'+x0; if(key!==st.last) break; }
+  st.last=key; return {c, x0};
+}
+const fTex = c => 'f(x) = '+polyTex(c);
+
+function methodHead(mode){
+  const st=ST[mode];
+  const formula = mode==='x0'
+    ? T("f'(x_0)=\\lim_{x\\to x_0}\\frac{f(x)-f(x_0)}{x-x_0}", true)
+    : T("f'(\\textcolor{#c2185b}{x_0})=\\lim_{h\\to 0}\\frac{f(\\textcolor{#c2185b}{x_0}+h)-f(\\textcolor{#c2185b}{x_0})}{h}", true);
+  return `<div class="card"><h2>${mode==='x0'?'① x₀-Methode':'② h-Methode'}</h2>
+  <div class="formula">${formula}</div>
+  <div class="levels" id="levels">${['leicht','mittel','schwer'].map(l=>`<button class="pill ${st.level===l?'on':''}" data-l="${l}">${l}</button>`).join('')}
+  <span class="count">gelöst: ${st.solved}</span></div><div class="muted" style="font-size:.9rem">${LVTXT[st.level]}</div></div><div class="card" id="runbox"></div>`;
+}
+function bindLevels(mode){
+  document.querySelectorAll('#levels [data-l]').forEach(b=>b.addEventListener('click',()=>{ ST[mode].level=b.dataset.l; startMethod(mode); }));
+}
+
+function startMethod(mode){
+  const box=$('#tasks'); box.innerHTML=methodHead(mode); bindLevels(mode);
+  const {c, x0}=newCase(mode);
+  const f=x=>pe(c,x), f0=pe(c,x0), fp=pe(pder(c),x0);
+  const st={q: mode==='x0' ? x0+1.5 : 1.5, showTan:false};   // Lage von Q (x bzw. h)
+  const range=autoRange(f,x0);
+  const view=()=>{
+    const xq = mode==='x0' ? st.q : x0+st.q;
+    const same = Math.abs(xq-x0)<1e-9;
+    const v={...range, curves:[{f,color:'#1f5fbf'}], labels:[{text:'f: x ↦ '+polyTxt(c),color:'#1f5fbf'}], lines:[], crosses:[], segs:[]};
+    if(!same){ const ms=(f(xq)-f0)/(xq-x0); v.lines.push({x0,y0:f0,m:ms,color:'#e67e00',w:2.2}); v.labels.push({text:'Sekante PQ',color:'#e67e00'}); }
+    if(st.showTan){ v.lines.push({x0,y0:f0,m:fp,color:'#d62828',w:2.6}); v.labels.push({text:'Tangente in P: m = '+num(fp),color:'#d62828'}); v.tris=[{x:x0,y:f0,m:fp,color:'#d62828'}]; }
+    v.crosses.push({x:x0,y:f0,label:'P',color:'#111',big:true,ldx:-12,ldy:-10});
+    v.crosses.push({x:xq,y:f(xq),label:'Q',color:'#e67e00',big:true,halo:'#e67e00'});
+    v.segs.push({x1:x0,y1:0,x2:x0,y2:f0,color:'#999'});
+    const ms = same ? null : (f(xq)-f0)/(xq-x0);
+    const qtxt = mode==='x0' ? `x = <b>${num(xq)}</b>` : `h = <b>${num(st.q)}</b>`;
+    v.panel = `<span class="hint-drag">Ziehe Q am Graphen.</span> &nbsp; ${qtxt} &nbsp;·&nbsp; Sekantensteigung ${T('m_s')} = ${same?'<b style="color:#d62828">nicht definiert (Q = P, Division durch 0)</b>':'<b style="color:#e67e00">'+num(ms)+'</b>'}`;
+    v.drag={snap: 0.05, min: mode==='x0'?range.xmin:range.xmin-x0, max: mode==='x0'?range.xmax:range.xmax-x0, set:val=>{st.q=val;}};
+    return v;
+  };
+  setView(view);
+  const head = `Berechne mit der <b>${mode==='x0'?'x₀':'h'}-Methode</b> die Ableitung von ${T(fTex(c))} an der Stelle ${T('x_0='+(mode==='h'?CX(tn(x0)):tn(x0)))}.`;
+  const steps = applyLevel(mode, ST[mode].level, mode==='x0' ? stepsX0(c,x0,f0,fp) : stepsH(c,x0,f0,fp), c, x0, f0, fp);
+  steps[steps.length-1].onOk=()=>{ st.showTan=true; };
+  const task={ head, steps,
+    finish:()=>`<h3>✓ Geschafft!</h3>${T("f'("+tn(x0)+") = "+tn(fp))} – die Tangente im Punkt ${T('P('+tn(x0)+'\\,|\\,'+tn(f0)+')')} hat die Steigung ${T(tn(fp))}.
+      <div class="btns" style="margin-top:8px"><button class="b go" id="nextT">Neue Aufgabe</button></div>`,
+    bind:el=>{ const b=el.querySelector('#nextT'); if(b) b.addEventListener('click',()=>{ startMethod(mode); }); },
+    next:()=>startMethod(mode)
+  };
+  const oldOk=steps[steps.length-1].onOk; steps[steps.length-1].onOk=()=>{ oldOk(); ST[mode].solved++; const cnt=document.querySelector('.count'); if(cnt) cnt.textContent='gelöst: '+ST[mode].solved; };
+  new Runner($('#runbox'), task);
+}
+
+/* Stufen: leicht = alle Schritte mit Auswahl, mittel = weniger Zwischenschritte, schwer = nur Ergebnis + Tangente */
+function applyLevel(mode, level, all, c, x0, f0, fp){
+  if(level==='leicht') return all;
+  if(level==='mittel'){
+    if(mode==='x0'){
+      const s=Object.assign({}, all[2]);
+      s.q='Stelle den Differenzenquotienten auf, faktorisiere den Zähler und kürze. Gib den gekürzten Term ein.';
+      s.fields=[{pre:T(`\\frac{f(x)-f(${tn(x0)})}{${linTex(x0)}}=`),kind:'expr',wide:true,ph:'Term mit x'}];
+      s.help=all[0].done+'<br>'+all[2].help;
+      return [s, all[3]];
+    } else {
+      const s=Object.assign({}, all[1]);
+      const fh=`f(${x0===0?'h':CX(tn(x0))+'+h'})`;
+      s.q='Setze ein, multipliziere aus und vereinfache den Zähler.';
+      s.fields=[{pre:T(`${fh}-f(${tn(x0)})=`),kind:'expr',wide:true,ph:'Term mit h'}];
+      s.help=all[0].done+'<br>'+all[1].help;
+      return [s, all[2], all[3]];
+    }
+  }
+  // schwer
+  const path=all.map(s=>s.done).join('<br>');
+  const fin={ q:`Rechne im Heft und gib das Ergebnis ein.`, fields:[{pre:T(`f'(${tn(x0)})=`),kind:'num'}],
+    check:v=>{ const a=parseNum(v[0]); if(close(a,fp)) return {ok:true,msg:T(`f'(${tn(x0)})=${tn(fp)}`)}; if(close(a,f0)) return {ok:false,msg:'Das ist der Funktionswert '+T(`f(${tn(x0)})`)+', nicht die Steigung.'}; return {ok:false,msg:'Noch nicht richtig. Prüfe deine Rechnung Schritt für Schritt (Tipp).'}; },
+    tip: mode==='x0' ? 'Schritte: '+T('f(x_0)')+' berechnen → Differenzenquotient aufstellen → Zähler faktorisieren und kürzen → Grenzwert '+T('x\\to x_0') : 'Schritte: '+T('f(x_0+h)')+' ausmultiplizieren → '+T('f(x_0)')+' abziehen → '+T('h')+' ausklammern und kürzen → Grenzwert '+T('h\\to 0'),
+    help:path, sol:[num(fp).replace('−','-')], done:'<details><summary>'+T(`f'(${tn(x0)})=${tn(fp)}`)+' (Rechenweg)</summary>'+path+'</details>' };
+  const tt=f0-fp*x0;
+  const tan={ q:`Bestimme die Gleichung der Tangente im Punkt ${T('P('+tn(x0)+'\\,|\\,'+tn(f0)+')')}.`, fields:[{pre:T('y='),kind:'num',ph:'m'},{pre:T('x\\;+'),kind:'num',ph:'t'}],
+    check:v=>{ const m=parseNum(v[0]), t=parseNum(v[1]); if(close(m,fp)&&close(t,tt)) return {ok:true,msg:T(`y=${polyTex([tt,fp])}`)};
+      if(!close(m,fp)) return {ok:false,msg:'Die Steigung der Tangente ist '+T(`f'(${tn(x0)})`)+'.'}; return {ok:false,msg:'Setze P ein: '+T(`${tnp(f0)}=${tnp(fp)}\\cdot ${tnp(x0)}+t`)+'.'}; },
+    tip:'Setze '+T("m=f'(x_0)")+' und den Punkt P in '+T('y=mx+t')+' ein.', help:T(`${tnp(f0)}=${tnp(fp)}\\cdot ${tnp(x0)}+t\\Rightarrow t=${tn(tt)}`),
+    sol:[num(fp).replace('−','-'), num(tt).replace('−','-')], done:'Tangente: '+T(`y=${polyTex([tt,fp])}`) };
+  return [fin];
+}
+const LVTXT={leicht:'Schritt für Schritt mit Auswahlhilfe: Geraden, x², x³.',mittel:'Weniger Zwischenschritte: Funktionen 2. und 3. Grades mit mehreren Summanden.',schwer:'Du rechnest selbst im Heft und gibst nur das Ergebnis ein. Funktionen bis x⁴.'};
+function stepsX0(c,x0,f0,fp){
+  const numer=c.slice(); numer[0]=rnd(numer[0]-f0,9);
+  const q=pdivlin(numer,x0);
+  const dqTex = `\\frac{${polyTex(numer)}}{${linTex(x0)}}`;
+  const fx0 = `f(${tn(x0)})`;
+  const deg = c.length-1;
+  const isCubic = deg>=3;
+  const pureQuad = deg===2 && c[1]===0;
+  let factTip;
+  if(deg===1) factTip = `Klammere im Zähler den Faktor ${T(tn(c[1]))} aus.`;
+  else if(pureQuad) factTip = `Nutze die 3. binomische Formel ${T('a^2-b^2=(a+b)(a-b)')}${Math.abs(c[2])!==1?' (vorher den Faktor '+T(tn(c[2]))+' ausklammern)':''}.`;
+  else {
+    const parts=[]; for(let i=deg;i>=1;i--){ if(!c[i]) continue; const co=Math.abs(c[i])===1?(c[i]<0?'-':''):tn(c[i]); parts.push(co+(i===1?'(x-'+tnp(x0)+')':'(x^{'+i+'}-'+tnp(x0)+'^{'+i+'})')); }
+    const sortTex=parts.join('+').replace(/\+-/g,'-');
+    factTip = `Sortiere den Zähler nach Potenzen: ${T(sortTex)}. Jede Klammer enthält den Faktor ${T('('+linTex(x0)+')')}: ${T('x^2-a^2=(x-a)(x+a)')}`
+      + (deg>=3?', '+T('x^3-a^3=(x-a)(x^2+ax+a^2)'):'') + (deg>=4?', '+T('x^4-a^4=(x-a)(x^3+ax^2+a^2x+a^3)'):'') + '.';
+  }
+  return [
+    { q:`Berechne zuerst den Funktionswert an der Stelle ${T('x_0='+tn(x0))}.`,
+      fields:[{pre:T(fx0+'='),kind:'num'}],
+      check:v=>{ const a=parseNum(v[0]); if(close(a,f0)) return {ok:true,msg:T(fx0+'='+tn(f0))};
+        if(x0<0 && close(a, pe(c,-x0))) return {ok:false,msg:'Vorzeichenfehler: Setze die negative Zahl in Klammern ein, z. B. '+T('(-2)^2=4')+'.'};
+        return {ok:false,msg:'Setze '+T('x_0='+tn(x0))+' für jedes '+T('x')+' in den Funktionsterm ein.'}; },
+      tip:'Ersetze im Funktionsterm jedes '+T('x')+' durch '+T(tnp(x0))+'.',
+      help:T(fx0+'='+substNumTex(c,x0)+'='+tn(f0)),
+      sol:[num(f0).replace('−','-')],
+      done:T(fx0+'='+substNumTex(c,x0)+'='+tn(f0)) },
+    { q:`Welcher Term ist der Differenzenquotient (Sekantensteigung) zwischen ${T('P('+tn(x0)+'\\,|\\,'+tn(f0)+')')} und ${T('Q(x\\,|\\,f(x))')}?`,
+      mc:[
+        {html:T(`\\dfrac{${polyTex(c)} ${f0<0?'+':'-'} ${tn(Math.abs(f0))}}{${linTex(x0)}}`),ok:true,msg:'Genau: '+T('\\frac{f(x)-f(x_0)}{x-x_0}')+' = Δy durch Δx.'},
+        {html:T(`\\dfrac{${linTex(x0)}}{${polyTex(c)} ${f0<0?'+':'-'} ${tn(Math.abs(f0))}}`),msg:'Das ist der Kehrwert. Steigung = Höhenunterschied durch Breite, also Δy oben.'},
+        {html:T(`\\dfrac{${polyTex(c)} ${f0<0?'+':'-'} ${tn(Math.abs(f0))}}{${linTex(-x0)}}`),msg:'Im Nenner steht die Differenz der x-Werte: '+T('x-x_0')+'. Achte auf das Vorzeichen.'}
+      ],
+      done:'Differenzenquotient: '+T(`\\frac{f(x)-f(${tn(x0)})}{${linTex(x0)}} = ${dqTex}`) },
+    { q:`Faktorisiere den Zähler und kürze ${T('('+linTex(x0)+')')}. Gib den gekürzten Term ein.`,
+      fields:[{pre:T(dqTex+'='),kind:'expr',wide:true,ph:'Term mit x'}],
+      check:v=>exprCheck(v[0],'x',x=>pe(q,x),{noFrac:true,probe:x0+1,skip:x0,
+        wrong:[{f:x=>pe(numer,x),msg:'Das ist nur der Zähler. Du musst noch durch '+T('('+linTex(x0)+')')+' teilen (kürzen).'},
+               {f:x=>pe(numer,x)/(x+x0),msg:'Achte auf das Vorzeichen im Nenner: '+T(linTex(x0))+'.'}],
+        generic:'Noch nicht richtig. Tipp: Multipliziere '+T('('+linTex(x0)+')')+' mit deinem Term – dann muss der Zähler herauskommen.'}),
+      tip:factTip,
+      help:T(`${dqTex}=\\frac{${c[c.length-1]!==1&&!isCubic&&pureQuad?'':''}(${linTex(x0)})(${polyTex(q)})}{${linTex(x0)}}=${polyTex(q)}`)+'<br><span class="muted">Kürzen ist erlaubt, weil '+T('x\\neq '+tn(x0))+'.</span>',
+      sol:[polyTxt(q,'x',true).replace(/−/g,'-')],
+      done:T(`${dqTex}=\\frac{(${linTex(x0)})(${polyTex(q)})}{${linTex(x0)}}=${polyTex(q)}`) },
+    { q:`Bilde den Grenzwert ${T('x\\to '+tn(x0))}.`,
+      fields:[{pre:T(`f'(${tn(x0)})=\\lim\\limits_{x\\to ${tn(x0)}}\\left(${polyTex(q)}\\right)=`),kind:'num'}],
+      check:v=>{ const a=parseNum(v[0]); if(close(a,fp)) return {ok:true,msg:'Die Tangente hat die Steigung '+T(tn(fp))+'. Ziehe Q nah an P: Die Sekante nähert sich der Tangente.'};
+        return {ok:false,msg:'Setze im gekürzten Term '+T('x='+tn(x0))+' ein. Jetzt ist das erlaubt, weil kein Bruch mehr da ist.'}; },
+      tip:'Nach dem Kürzen darfst du '+T('x='+tn(x0))+' einfach einsetzen.',
+      help:T(`\\lim\\limits_{x\\to ${tn(x0)}}\\left(${polyTex(q)}\\right)=${substNumTex(q,x0)}=${tn(fp)}`),
+      sol:[num(fp).replace('−','-')],
+      done:T(`f'(${tn(x0)})=\\lim\\limits_{x\\to ${tn(x0)}}\\left(${polyTex(q)}\\right)=${substNumTex(q,x0)}=${tn(fp)}`) }
+  ];
+}
+
+function stepsH(c,x0,f0,fp){
+  const sh=pshift(c,x0);                 // f(x0+h) als Polynom in h
+  const numer=sh.slice(); numer[0]=0;     // f(x0+h)-f(x0)
+  const q=numer.slice(1);                 // nach Kürzen durch h
+  const subst=substHTex(c,x0);
+  const fh=`f(${x0===0?'h':CX(tn(x0))+'+h'})`, f0t=`f(${CX(tn(x0))})`;
+  const deg=c.length-1;
+  const wrongBin = h=>{ let s=0; for(let i=0;i<c.length;i++){ s += i>=2 ? c[i]*(x0**i+h**i) : c[i]*(x0+h)**i; } return s; };
+  return [
+    { q:`Setze ${T(CX('x_0')+'+h')} ein und multipliziere aus.`,
+      fields:[{pre:T(`${fh}=${subst}=`),kind:'expr',wide:true,ph:'Term mit h'}],
+      check:v=>exprCheck(v[0],'h',h=>pe(sh,h),{noParen:true,probe:1,
+        wrong: x0!==0 && c.some((a,i)=>i>=2&&a!==0) ? [{f:wrongBin,msg:'Achtung binomische Formel: '+T('('+tn(x0)+'+h)^2\\neq '+tn(x0*x0)+'+h^2')+'. Es fehlt das Mischglied '+T('2ab')+'.'}] : [],
+        generic:'Noch nicht richtig ausmultipliziert.'}),
+      tip: deg===1 ? 'Multipliziere die Klammer aus.' : 'Nutze '+T('(a+b)^2=a^2+2ab+b^2')+(deg>=3?', '+T('(a+b)^3=a^3+3a^2b+3ab^2+b^3'):'')+(deg>=4?', '+T('(a+b)^4=a^4+4a^3b+6a^2b^2+4ab^3+b^4'):'')+'. Vergiss den Faktor vor der Klammer nicht.',
+      help:T(`${fh}=${subst}=${polyTex(sh,'h')}`),
+      sol:[polyTxt(sh,'h',true).replace(/−/g,'-')],
+      done:T(`${fh}=${subst}=${polyTex(sh,'h')}`) },
+    { q:`Berechne den Zähler des Differenzenquotienten: ${T(`${fh}-${f0t}`)}. Es ist ${T(f0t+'='+tn(f0))}.`,
+      fields:[{pre:T(`${fh}-${f0t}=`),kind:'expr',wide:true,ph:'Term mit h'}],
+      check:v=>exprCheck(v[0],'h',h=>pe(numer,h),{noParen:true,probe:1,
+        wrong:[{f:h=>pe(sh,h),msg:'Du hast '+T(f0t+'='+tn(f0))+' noch nicht abgezogen.'},{f:h=>pe(sh,h)+f0,msg:'Abziehen, nicht addieren: '+T('-'+tnp(f0))+'.'}],
+        generic:'Noch nicht richtig. Ziehe '+T(tn(f0))+' von '+T(fh)+' ab.'}),
+      tip:'Die Zahl ohne '+T('h')+' muss dabei wegfallen. Klammern beim Abziehen beachten!',
+      help:T(`${fh}-${f0t}=\\left(${polyTex(sh,'h')}\\right)-${tnp(f0)}=${polyTex(numer,'h')}`),
+      sol:[polyTxt(numer,'h',true).replace(/−/g,'-')],
+      done:T(`${fh}-${f0t}=${polyTex(numer,'h')}`) },
+    { q:`Klammere im Zähler ${T('h')} aus und kürze.`,
+      fields:[{pre:T(`\\frac{${polyTex(numer,'h')}}{h}=`),kind:'expr',wide:true,ph:'Term mit h'}],
+      check:v=>exprCheck(v[0],'h',h=>pe(q,h),{noFrac:true,probe:1,skip:0,
+        wrong:[{f:h=>pe(numer,h),msg:'Du hast noch nicht durch '+T('h')+' geteilt.'}],
+        generic:'Noch nicht richtig. Jeder Summand im Zähler enthält '+T('h')+': Teile jeden durch '+T('h')+'.'}),
+      tip:'Beispiel: '+T('\\frac{6h+h^2}{h}=\\frac{h(6+h)}{h}=6+h')+'.',
+      help:T(`\\frac{${polyTex(numer,'h')}}{h}=\\frac{h\\left(${polyTex(q,'h')}\\right)}{h}=${polyTex(q,'h')}`)+'<br><span class="muted">Kürzen ist erlaubt, weil '+T('h\\neq 0')+'.</span>',
+      sol:[polyTxt(q,'h',true).replace(/−/g,'-')],
+      done:T(`\\frac{${fh}-${f0t}}{h}=\\frac{${polyTex(numer,'h')}}{h}=${polyTex(q,'h')}`) },
+    { q:`Bilde den Grenzwert ${T('h\\to 0')}.`,
+      fields:[{pre:T(`f'(${tn(x0)})=\\lim\\limits_{h\\to 0}\\left(${polyTex(q,'h')}\\right)=`),kind:'num'}],
+      check:v=>{ const a=parseNum(v[0]); if(close(a,fp)) return {ok:true,msg:'Alle Summanden mit '+T('h')+' werden null. Die Tangente hat die Steigung '+T(tn(fp))+'.'};
+        return {ok:false,msg:'Für '+T('h\\to 0')+' werden alle Summanden mit '+T('h')+' zu 0. Was bleibt übrig?'}; },
+      tip:'Setze im gekürzten Term '+T('h=0')+' ein.',
+      help:T(`\\lim\\limits_{h\\to 0}\\left(${polyTex(q,'h')}\\right)=${tn(fp)}`),
+      sol:[num(fp).replace('−','-')],
+      done:T(`f'(${tn(x0)})=\\lim\\limits_{h\\to 0}\\left(${polyTex(q,'h')}\\right)=${tn(fp)}`) }
+  ];
+}
+
+/* ================= Teil 3: Am Graphen ================= */
+const GR={i:0, solved:[]};
+function slopeColor(m){ return Math.abs(m)<0.05 ? '#e67e00' : (m>0?'#1a9a4b':'#d62828'); }
+const GTASKS=[
+  // G1 Sekante -> Tangente
+  ()=>{ const c=[0,0,0.5], f=x=>pe(c,x), x0=2, st={xq:4.5, tan:false};
+    const view=()=>{ const v={xmin:-2,xmax:6,ymin:-1,ymax:9,curves:[{f,color:'#1f5fbf'}],labels:[{text:'f: x ↦ 0,5x²',color:'#1f5fbf'}],lines:[],crosses:[]};
+      const same=Math.abs(st.xq-x0)<1e-9, ms=same?null:(f(st.xq)-f(x0))/(st.xq-x0);
+      if(!same) v.lines.push({x0,y0:f(x0),m:ms,color:'#e67e00',w:2.2});
+      if(st.tan){ v.lines.push({x0,y0:f(x0),m:2,color:'#d62828',w:2.6}); v.tris=[{x:x0,y:f(x0),m:2,color:'#d62828'}]; v.labels.push({text:'Tangente in P',color:'#d62828'}); }
+      v.crosses.push({x:x0,y:f(x0),label:'P',big:true,ldx:-12}); v.crosses.push({x:st.xq,y:f(st.xq),label:'Q',color:'#e67e00',big:true,halo:'#e67e00'});
+      v.panel=`<span class="hint-drag">Ziehe Q.</span> &nbsp; Q(${num(st.xq)} | ${num(f(st.xq))}) &nbsp;·&nbsp; Sekantensteigung ${T('m_s')} = ${same?'<b style="color:#d62828">nicht definiert</b>':'<b style="color:#e67e00">'+num(ms)+'</b>'}`;
+      v.drag={snap:0.05,min:-2,max:6,set:x=>{st.xq=x;}}; return v; };
+    return { view, head:'<b>Von der Sekante zur Tangente.</b> Gegeben ist '+T('f(x)=0{,}5x^2')+' mit dem Punkt '+T('P(2\\,|\\,2)')+'.',
+      steps:[
+        { q:'Ziehe Q von <b>rechts</b> ganz nah an P heran (Abstand höchstens 0,1). Beobachte die Sekantensteigung.', checkLabel:'Fertig',
+          check:()=> (st.xq>x0 && st.xq-x0<=0.1001) ? {ok:true,msg:'Die Sekantensteigungen kommen der 2 immer näher.'} : {ok:false,msg: st.xq===x0?'Q darf nicht genau auf P liegen – dann gibt es keine Sekante.':(st.xq<x0?'Ziehe Q von rechts heran.':'Noch näher an P!')},
+          solve:()=>{st.xq=2.05;}, sol:[], done:'Q rechts nah an P: '+T('m_s')+' wird immer kleiner und nähert sich 2.' },
+        { q:'Ziehe Q jetzt von <b>links</b> ganz nah an P heran (Abstand höchstens 0,1).', checkLabel:'Fertig',
+          check:()=> (st.xq<x0 && x0-st.xq<=0.1001) ? {ok:true,msg:'Auch von links nähern sich die Sekantensteigungen der 2.'} : {ok:false,msg: st.xq===x0?'Q darf nicht genau auf P liegen.':(st.xq>x0?'Ziehe Q von links heran.':'Noch näher an P!')},
+          solve:()=>{st.xq=1.95;}, sol:[], done:'Q links nah an P: '+T('m_s')+' wird immer größer und nähert sich 2.' },
+        { q:'Welche Steigung hat also die <b>Tangente</b> in P?', fields:[{pre:T("f'(2)="),kind:'num'}],
+          check:v=>close(parseNum(v[0]),2,0.05)?{ok:true,msg:T("f'(2)=\\lim_{x\\to 2}\\frac{f(x)-f(2)}{x-2}=2")}:{ok:false,msg:'Schau, welchem Wert sich '+T('m_s')+' von beiden Seiten nähert.'},
+          onOk:()=>{st.tan=true;}, tip:'Die Tangentensteigung ist der Grenzwert der Sekantensteigungen.', help:'Von rechts: 2,05; 2,025 … von links: 1,95; 1,975 … Beide nähern sich 2.', sol:['2'], done:'Tangentensteigung '+T("f'(2)=2")} ] };
+  },
+  // G2 Tangentensteigung ablesen (positiv)
+  ()=>{ const c=[3,2,-0.5], f=x=>pe(c,x), x0=0, st={done:false};
+    const view=()=>({xmin:-3,xmax:6,ymin:-2,ymax:7,curves:[{f,color:'#1f5fbf'}],labels:[{text:'Graph von f',color:'#1f5fbf'},{text:'Tangente t in P',color:'#d62828'}],
+      lines:[{x0,y0:3,m:2,color:'#d62828'}],crosses:[{x:0,y:3,label:'P',big:true,ldx:-12}],tris:st.done?[{x:0,y:3,m:2,color:'#d62828'}]:[],panel:'Lies die Steigung der Tangente mit einem Steigungsdreieck ab.'});
+    return { view, head:'<b>Tangentensteigung ablesen.</b> Die rote Gerade ist die Tangente an den Graphen von '+T('f')+' im Punkt P.',
+      steps:[{ q:'Bestimme die Steigung der Tangente, also '+T("f'(0)")+'.', fields:[{pre:T("f'(0)\\approx"),kind:'num'}],
+        check:v=>{ const a=parseNum(v[0]); if(close(a,2,0.2)) return {ok:true,msg:'1 Kästchenlänge-Einheit nach rechts, 2 nach oben: '+T("f'(0)=2")+'.'}; if(close(a,0.5,0.1)) return {ok:false,msg:'Kehrwert! Steigung = Höhe ÷ Breite (Δy ÷ Δx).'}; if(close(a,-2,0.2)) return {ok:false,msg:'Die Tangente steigt – die Steigung ist positiv.'}; return {ok:false,msg:'Gehe von P aus 1 Einheit (2 Kästchen) nach rechts. Wie viele Einheiten musst du nach oben, um wieder auf der Tangente zu sein?'}; },
+        onOk:()=>{st.done=true;}, tip:'Zeichne ein Steigungsdreieck: 1 nach rechts, dann senkrecht bis zur Tangente.', help:'Von P(0 | 3) gehe 1 nach rechts zu (1 | 3). Die Tangente ist dort bei y = 5, also 2 höher. Steigung = 2 ÷ 1 = 2.', sol:['2'], done:'Tangentensteigung '+T("f'(0)=2")}] };
+  },
+  // G3 Tangentensteigung ablesen (negativ, Dezimal)
+  ()=>{ const c=[0,-1.5,0,0.5], f=x=>pe(c,x), st={done:false};
+    const view=()=>({xmin:-3,xmax:4,ymin:-4,ymax:4,curves:[{f,color:'#1f5fbf'}],labels:[{text:'Graph von f',color:'#1f5fbf'},{text:'Tangente t',color:'#d62828'}],
+      lines:[{x0:0,y0:0,m:-1.5,color:'#d62828'}],crosses:[{x:0,y:0,label:'P',big:true,ldx:8,ldy:-12}],tris:st.done?[{x:0,y:0,m:-1.5,dx:2,color:'#d62828'}]:[],panel:'Lies die Steigung der Tangente ab.'});
+    return { view, head:'<b>Noch einmal ablesen.</b> Die rote Gerade ist die Tangente im Ursprung.',
+      steps:[{ q:'Bestimme '+T("f'(0)")+' aus der Zeichnung.', fields:[{pre:T("f'(0)\\approx"),kind:'num'}],
+        check:v=>{ const a=parseNum(v[0]); if(close(a,-1.5,0.2)) return {ok:true,msg:'2 nach rechts, 3 nach unten: '+T("m=\\frac{-3}{2}=-1{,}5")+'.'}; if(close(a,1.5,0.2)) return {ok:false,msg:'Die Tangente fällt – die Steigung ist negativ.'}; if(close(Math.abs(a),2/3,0.1)) return {ok:false,msg:'Kehrwert! Steigung = Δy ÷ Δx.'}; return {ok:false,msg:'Nimm ein größeres Steigungsdreieck, z. B. 2 Einheiten nach rechts, und lies ab, wie weit es nach unten geht.'}; },
+        onOk:()=>{st.done=true;}, tip:'Bei 1 nach rechts endet die Tangente zwischen zwei Gitterlinien. Gehe lieber 2 nach rechts.', help:'Von (0 | 0) nach (2 | −3): Δx = 2, Δy = −3, also m = −3 ÷ 2 = −1,5.', sol:['-1,5'], done:'Tangentensteigung '+T("f'(0)=-1{,}5")}] };
+  },
+  // G4 Tangente selbst anlegen und f'(3) bestimmen
+  ()=>{ const c=[1,-2,0.5], f=x=>pe(c,x), xP=3, yP=f(3), st={m:-1.5, ok:false};
+    const view=()=>{ const xH=xP+1.5, yH=yP+st.m*1.5;
+      return {xmin:-1,xmax:7,ymin:-2,ymax:6,curves:[{f,color:'#1f5fbf'}],labels:[{text:'f: x ↦ 0,5x² − 2x + 1',color:'#1f5fbf'},{text:st.ok?'Tangente in P':'deine Gerade',color:st.ok?'#d62828':'#8e44ad'}],
+        lines:[{x0:xP,y0:yP,m:st.m,color:st.ok?'#d62828':'#8e44ad',w:2.4}],
+        crosses:[{x:xP,y:yP,label:'P',big:true,ldx:-16,ldy:-8},{x:xH,y:yH,color:'#8e44ad',big:true,halo:'#8e44ad'}],
+        tris:st.ok?[{x:xP,y:yP,m:1,color:'#d62828'}]:[],
+        panel:'<span class="hint-drag">Ziehe den lila Punkt: Die Gerade dreht sich um P.</span>',
+        drag:{snap:0.05,min:-1,max:7,set:(x,y)=>{ if(Math.abs(x-xP)>0.25){ st.m=rnd(Math.round(((y-yP)/(x-xP))/0.05)*0.05,4); } }}}; };
+    return { view, head:'<b>Tangente anlegen.</b> Gegeben ist der Graph von '+T('f(x)=0{,}5x^2-2x+1')+' mit dem Punkt '+T('P(3\\,|\\,-0{,}5)')+'.',
+      steps:[
+        { q:'Drehe die lila Gerade um P, bis sie den Graphen in P nur <b>berührt</b> (Tangente).', checkLabel:'Prüfen',
+          check:()=> Math.abs(st.m-1)<=0.15 ? {ok:true,msg:'Gut angelegt! Die Gerade berührt den Graphen in P.'} : {ok:false,msg: st.m>1?'Zu steil: Die Gerade schneidet den Graphen links von P noch einmal.':'Zu flach: Die Gerade schneidet den Graphen rechts von P noch einmal.'},
+          solve:()=>{st.m=1;}, sol:[], tip:'Eine Tangente schmiegt sich an den Graphen an. Sie darf ihn in der Nähe von P nicht schneiden.', help:'Die Tangente geht von P aus 1 nach rechts und 1 nach oben.', done:'Tangente angelegt.' },
+        { q:'Lies die Steigung deiner Tangente ab.', fields:[{pre:T("f'(3)\\approx"),kind:'num'}],
+          check:v=>{ const a=parseNum(v[0]); if(close(a,1,0.2)) return {ok:true,msg:'1 nach rechts, 1 nach oben: '+T("f'(3)\\approx 1")+'.'}; if(close(a,-0.5,0.1)) return {ok:false,msg:'Das ist der Funktionswert '+T('f(3)')+', nicht die Steigung.'}; return {ok:false,msg:'Steigungsdreieck: Gehe von P aus 1 nach rechts. Wie weit nach oben bis zur Tangente?'}; },
+          onOk:()=>{st.ok=true; st.m=1;}, tip:'Steigung = Δy ÷ Δx.', help:'Von P(3 | −0,5) nach (4 | 0,5): Δx = 1, Δy = 1.', sol:['1'], done:'abgelesen: '+T("f'(3)\\approx 1") },
+        { q:'Kontrolliere mit der h-Methode: Berechne '+T("f'(3)")+' exakt.', fields:[{pre:T("f'(3)=\\lim\\limits_{h\\to 0}\\frac{f(3+h)-f(3)}{h}="),kind:'num'}],
+          check:v=>close(parseNum(v[0]),1)?{ok:true,msg:T("f'(3)=1")+' – passt zur abgelesenen Steigung.'}:{ok:false,msg:'Rechne '+T('f(3+h)=0{,}5(3+h)^2-2(3+h)+1')+' aus.'},
+          tip:T('f(3+h)=0{,}5(9+6h+h^2)-6-2h+1'), help:T('f(3+h)=-0{,}5+h+0{,}5h^2')+', also '+T('\\frac{h+0{,}5h^2}{h}=1+0{,}5h\\;\\xrightarrow{h\\to 0}\\;1')+'.', sol:['1'], done:T("f'(3)=1") } ] };
+  },
+  // G5 Tracer: Stellen mit vorgegebener Steigung
+  ()=>{ const c=[1,-3,0,0.25], f=x=>pe(c,x), d=x=>0.75*x*x-3, st={x:3.5, show:false};
+    const view=()=>{ const m=d(st.x), col=slopeColor(m);
+      return {xmin:-4,xmax:4,ymin:-4,ymax:6,curves:[{f,color:'#1f5fbf'}],labels:[{text:'f: x ↦ 0,25x³ − 3x + 1',color:'#1f5fbf'}],
+        lines:[{x0:st.x,y0:f(st.x),m,color:col}], tris:[{x:st.x,y:f(st.x),m,color:col,showM:st.show}], crosses:[{x:st.x,y:f(st.x),label:'P',color:col,big:true,halo:col}],
+        panel:`<span class="hint-drag">Ziehe P am Graphen.</span> &nbsp; ${T('x_0')} = <b>${num(st.x)}</b>${st.show?' &nbsp;·&nbsp; '+T("f'(x_0)")+' = <b>'+num(m)+'</b>':''} &nbsp; <span style="color:#1a9a4b">■ steigend</span> <span style="color:#d62828">■ fallend</span> <span style="color:#e67e00">■ waagrecht</span>`,
+        drag:{snap:0.1,min:-4,max:4,set:x=>{st.x=x;}}}; };
+    const chk=(target,msg)=>()=> Math.abs(d(st.x)-target)<0.08 ? {ok:true,msg:msg(st.x)} : {ok:false,msg: d(st.x)>target?'Die Tangente ist noch zu steil nach oben. Suche eine Stelle, an der sie flacher ist bzw. fällt.':'Die Tangente fällt noch zu stark. Suche weiter.'};
+    return { view, head:'<b>Tangenten erforschen.</b> Ziehe P über den Graphen. Die Tangente färbt sich nach ihrer Steigung, das Steigungsdreieck hat immer die Breite 1.',
+      steps:[
+        { q:'Verschiebe P an eine Stelle, an der die Tangente <b>waagrecht</b> ist ('+T("f'(x_0)=0")+').', checkLabel:'Prüfen', check:chk(0,x=>'Bei '+T('x_0='+tn(x))+' ist die Tangente waagrecht. Es gibt noch eine zweite solche Stelle: '+T('x_0='+tn(-x))+'.'), solve:()=>{st.x=2;}, sol:[], tip:'Schau dir die Hoch- und Tiefpunkte an.', help:'Am Hochpunkt (x = −2) und am Tiefpunkt (x = 2) ist die Tangente waagrecht.', done:'Waagrechte Tangente bei '+T('x_0=-2')+' und '+T('x_0=2')+'.'},
+        { q:'Verschiebe P so, dass die Tangente die Steigung '+T('-3')+' hat.', check:chk(-3,x=>'Richtig: '+T("f'(0)=-3")+'. Hier fällt der Graph am stärksten.'), solve:()=>{st.x=0;}, sol:[], tip:'Das Steigungsdreieck muss bei 1 nach rechts 3 nach unten gehen.', help:'Die Stelle liegt bei '+T('x_0=0')+'.', done:T("f'(0)=-3")},
+        { q:'Finde eine Stelle mit '+T("f'(x_0)=-2{,}25")+'.', check:chk(-2.25,x=>'Richtig: '+T("f'("+tn(x)+")=-2{,}25")+'. Auch bei '+T('x_0='+tn(-x))+' ist die Steigung −2,25.'), solve:()=>{st.x=1;}, sol:[], tip:'Die Tangente fällt etwas weniger steil als bei '+T('x_0=0')+'.', help:'Bei '+T('x_0=1')+' und '+T('x_0=-1')+'.', onOk:()=>{st.show=true;}, done:T("f'(1)=f'(-1)=-2{,}25")} ] };
+  },
+  // G6 Punkte vergleichen (Antippen)
+  ()=>{ const c=[1,-3,0,0.25], f=x=>pe(c,x), d=x=>0.75*x*x-3;
+    const P=[{x:-3.5,n:'A'},{x:-1.5,n:'B'},{x:0.5,n:'C'},{x:2.5,n:'D'}].map(p=>({...p,y:f(p.x)}));
+    const st={sel:null, tans:[] };
+    const view=()=>({xmin:-4,xmax:4,ymin:-4,ymax:6,curves:[{f,color:'#1f5fbf'}],labels:[{text:'Graph von f',color:'#1f5fbf'}],
+      lines:st.tans.map(p=>({x0:p.x,y0:p.y,m:d(p.x),color:slopeColor(d(p.x)),w:2})),
+      crosses:P.map(p=>({x:p.x,y:p.y,label:p.n,big:true,color:st.sel===p.n?'#1f5fbf':'#111',halo:st.sel===p.n?'#1f5fbf':null,ldx:p.n==='A'?12:10,ldy:p.n==='A'?4:-10})),
+      tap:{pts:P,on:p=>{ st.sel=p.n; redraw(); RUN.check(); }}, panel:'Tippe einen Punkt an.'});
+    const mk=(target,okMsg,why)=>({ q:'', checkLabel:'Prüfen', check:()=> st.sel===null?{ok:false,msg:'Tippe einen Punkt an.'} : (st.sel===target?{ok:true,msg:okMsg}:{ok:false,msg:why(st.sel)}), solve:()=>{st.sel=target;} , sol:[] });
+    const s1=mk('A','In A ist die Tangente am steilsten steigend: '+T("f'(-3{,}5)\\approx 6{,}2")+'.', n=>n==='D'?'D liegt höher als A, aber auf die Höhe kommt es nicht an – vergleiche, wie steil der Graph steigt.':'Gesucht ist die steilste <b>steigende</b> Stelle.');
+    s1.q='Tippe den Punkt an, in dem die <b>momentane Änderungsrate am größten</b> ist.'; s1.done='Größte momentane Änderungsrate in A.'; s1.tip='Denke dir in jedem Punkt die Tangente. Welche steigt am steilsten?'; s1.help='In A steigt der Graph sehr steil, in D weniger steil; in B und C fällt er.'; s1.onOk=()=>{st.tans=[P[0]]; st.sel=null;};
+    const s2=mk('C','In C fällt der Graph am stärksten: '+T("f'(0{,}5)\\approx -2{,}8")+'.', n=>n==='B'?'Auch in B fällt der Graph, aber in C fällt er steiler.':'Gesucht ist die Stelle, an der der Graph am <b>stärksten fällt</b>.');
+    s2.q='Tippe den Punkt an, in dem der Graph <b>am stärksten fällt</b> (kleinste Steigung).'; s2.done='Am stärksten fallend in C.'; s2.tip='Gesucht ist die steilste fallende Tangente.'; s2.help='B und C liegen im fallenden Teil. Zwischen Hoch- und Tiefpunkt ist der Graph in der Mitte am steilsten.'; s2.onOk=()=>{st.tans=P.slice(); st.sel=null;};
+    return { view, head:'<b>Steigungen vergleichen.</b> Gegeben ist der Graph von '+T('f')+' mit vier Punkten.', steps:[s1,s2] };
+  },
+  // G7 (mittel) Intervall so wählen, dass die mittlere Änderungsrate passt
+  ()=>{ const f=x=>0.5*x*x, st={b:1.5, tan:false};
+    const view=()=>{ const ms=st.b===0?null:f(st.b)/st.b;
+      const v={xmin:-1,xmax:6,ymin:-1,ymax:11,curves:[{f,color:'#1f5fbf'}],labels:[{text:'f: x ↦ 0,5x²',color:'#1f5fbf'}],lines:[],
+        crosses:[{x:0,y:0,label:'A',ldx:-16,ldy:-8},{x:st.b,y:f(st.b),label:'B',color:'#e67e00',big:true,halo:'#e67e00'}],segs:[{x1:st.b,y1:0,x2:st.b,y2:f(st.b)}],
+        panel:'<span class="hint-drag">Ziehe B.</span> &nbsp; '+T('b')+' = <b>'+num(st.b)+'</b> &nbsp;·&nbsp; mittlere Änderungsrate in '+T('[0;\\,b]')+': '+(ms===null?'<b style="color:#d62828">nicht definiert</b>':'<b style="color:#e67e00">'+num(ms)+'</b>'),
+        drag:{snap:0.05,min:0,max:6,set:x=>{st.b=x;}}};
+      if(ms!==null) v.lines.push({x0:0,y0:0,m:ms,color:'#e67e00',w:2.2});
+      if(st.tan){ v.lines.push({x0:2,y0:2,m:2,color:'#d62828',w:2.4}); v.crosses.push({x:2,y:2,label:'M',color:'#d62828',ldx:-18}); v.labels.push({text:'Tangente in M(2 | 2)',color:'#d62828'}); }
+      return v; };
+    return { view, head:'<b>Intervall anpassen.</b> Gegeben ist '+T('f(x)=0{,}5x^2')+'. Gesucht ist ein Intervall '+T('[0;\\,b]')+', in dem die mittlere Änderungsrate genau 2 beträgt.',
+      steps:[
+        { q:'Ziehe B so, dass die mittlere Änderungsrate im Intervall '+T('[0;\\,b]')+' gleich 2 ist.', checkLabel:'Prüfen',
+          check:()=> Math.abs(f(st.b)/st.b-2)<0.03 ? {ok:true,msg:'Bei '+T('b=4')+': '+T('\\frac{f(4)-f(0)}{4-0}=\\frac{8}{4}=2')+'.'} : {ok:false,msg: f(st.b)/st.b<2?'Die Sekante ist noch zu flach. Ziehe B weiter nach rechts.':'Die Sekante ist zu steil. Ziehe B nach links.'},
+          solve:()=>{st.b=4;}, sol:[], tip:'Die orange Sekante muss bei 1 nach rechts 2 nach oben gehen.', help:T('\\frac{0{,}5b^2}{b}=0{,}5b=2')+' ergibt '+T('b=4')+'.', done:T('b=4')+': mittlere Änderungsrate 2' },
+        { q:'Bestimme die Steigung der Tangente in der Intervallmitte '+T('x_0=2')+' mit der h-Methode.', fields:[{pre:T("f'(2)="),kind:'num'}],
+          check:v=>close(parseNum(v[0]),2)?{ok:true,msg:'Überraschung: '+T("f'(2)=2")+' – bei einer Parabel stimmt die Tangentensteigung in der Intervallmitte mit der mittleren Änderungsrate überein. Die rote Tangente ist parallel zur Sekante.'}:{ok:false,msg:'Rechne '+T('\\lim\\limits_{h\\to 0}\\frac{f(2+h)-f(2)}{h}')+'.'},
+          onOk:()=>{st.tan=true;}, tip:T('f(2+h)=0{,}5(4+4h+h^2)=2+2h+0{,}5h^2'), help:T('\\frac{2h+0{,}5h^2}{h}=2+0{,}5h\\;\\xrightarrow{h\\to 0}\\;2'), sol:['2'], done:T("f'(2)=2")+' = mittlere Änderungsrate' } ] };
+  },
+  // G8 (schwer) Tangente parallel zur Sekante
+  ()=>{ const c=[1,-3,0,0.25], f=x=>pe(c,x), d=x=>0.75*x*x-3, st={x:0.5};
+    const view=()=>{ const m=d(st.x);
+      return {xmin:-4,xmax:5,ymin:-4,ymax:6,curves:[{f,color:'#1f5fbf'}],labels:[{text:'f: x ↦ 0,25x³ − 3x + 1',color:'#1f5fbf'},{text:'Sekante AB',color:'#e67e00'},{text:'Tangente in P',color:'#d62828'}],
+        lines:[{x0:0,y0:1,m:1,color:'#e67e00',w:2},{x0:st.x,y0:f(st.x),m,color:'#d62828',w:2.4}],
+        crosses:[{x:0,y:1,label:'A',ldx:-16},{x:4,y:5,label:'B',ldx:-18},{x:st.x,y:f(st.x),label:'P',color:'#d62828',big:true,halo:'#d62828'}],
+        panel:'<span class="hint-drag">Ziehe P am Graphen.</span> &nbsp; '+T('x_0')+' = <b>'+num(st.x)+'</b>',
+        drag:{snap:0.05,min:-4,max:5,set:x=>{st.x=x;}}}; };
+    return { view, head:'<b>Lokal = mittel?</b> Gegeben ist der Graph von '+T('f')+' mit '+T('A(0\\,|\\,1)')+' und '+T('B(4\\,|\\,5)')+'.',
+      steps:[
+        { q:'Berechne die mittlere Änderungsrate von '+T('f')+' im Intervall '+T('[0;\\,4]')+'.', fields:[{pre:T('\\frac{f(4)-f(0)}{4-0}='),kind:'num'}],
+          check:v=>{ const a=parseNum(v[0]); if(close(a,1,0.01)) return {ok:true,msg:T('\\frac{5-1}{4}=1')}; if(close(a,4,0.01)) return {ok:false,msg:'Teile noch durch die Intervallbreite 4.'}; return {ok:false,msg:'Lies '+T('f(0)')+' und '+T('f(4)')+' ab und bilde den Differenzenquotienten.'}; },
+          tip:'A und B sind die Randpunkte.', help:T('\\frac{5-1}{4-0}=1'), sol:['1'], done:'mittlere Änderungsrate '+T('=1') },
+        { q:'Ziehe P an eine Stelle '+T('x_0\\in\\,]0;4[')+', an der die <b>lokale</b> Änderungsrate genauso groß ist (Tangente parallel zur Sekante).', checkLabel:'Prüfen',
+          check:()=> (st.x>0&&st.x<4&&Math.abs(d(st.x)-1)<0.12) ? {ok:true,msg:T('x_0\\approx 2{,}3')+'. Rechnerisch: '+T("f'(x_0)=0{,}75x_0^2-3=1\\Rightarrow x_0=\\sqrt{16/3}\\approx 2{,}31")+'.'} : {ok:false,msg: (st.x<=0||st.x>=4)?'Die Stelle soll zwischen A und B liegen.':(d(st.x)>1?'Die Tangente ist steiler als die Sekante.':'Die Tangente ist flacher als die Sekante (oder fällt).')},
+          solve:()=>{st.x=2.3;}, sol:[], tip:'Rechts vom Tiefpunkt wird die Tangente immer steiler. Wo hat sie genau die Steigung 1?', help:'Die Stelle liegt bei etwa '+T('x_0\\approx 2{,}3')+'.', done:T('x_0\\approx 2{,}3') } ] };
+  },
+  // G9 (schwer) Tangentensteigung berechnen und die richtige Tangente erkennen
+  ()=>{ const c=[2,1,-0.25], f=x=>pe(c,x), st={ok:false};
+    const L=[{n:'a',m:-0.5,col:'#8e44ad'},{n:'b',m:-1,col:'#16a085'},{n:'c',m:-2,col:'#b9770e'}];
+    const view=()=>{ const v={xmin:-2,xmax:8,ymin:-2,ymax:7,curves:[{f,color:'#1f5fbf'}],labels:[{text:'f: x ↦ −0,25x² + x + 2',color:'#1f5fbf'}],lines:[],crosses:[{x:4,y:2,label:'P',big:true,ldx:8,ldy:-12}],panel:'Drei Geraden durch P: a, b und c.'};
+      L.forEach(l=>{ if(st.ok && l.n!=='b') return; v.lines.push({x0:4,y0:2,m:l.m,color:st.ok?'#d62828':l.col,w:2.2}); v.crosses.push({x:6.5,y:2+l.m*2.5,label:l.n,color:st.ok?'#d62828':l.col,ldx:8,ldy:4}); });
+      if(st.ok){ v.tris=[{x:4,y:2,m:-1,color:'#d62828'}]; v.labels.push({text:'Tangente in P',color:'#d62828'}); }
+      return v; };
+    return { view, head:'<b>Welche Gerade ist die Tangente?</b> Gegeben ist '+T('f(x)=-0{,}25x^2+x+2')+' mit dem Punkt '+T('P(4\\,|\\,2)')+'.',
+      steps:[
+        { q:'Berechne '+T("f'(4)")+' mit der h-Methode.', fields:[{pre:T("f'(4)="),kind:'num'}],
+          check:v=>{ const a=parseNum(v[0]); if(close(a,-1)) return {ok:true,msg:T("f'(4)=-1")}; if(close(a,1)) return {ok:false,msg:'Vorzeichen prüfen: Der Graph fällt bei '+T('x=4')+'.'}; return {ok:false,msg:'Stelle '+T('\\frac{f(4+h)-f(4)}{h}')+' auf und kürze.'}; },
+          tip:T('f(4+h)=-0{,}25(16+8h+h^2)+(4+h)+2'), help:T('f(4+h)=2-h-0{,}25h^2')+', also '+T('\\frac{-h-0{,}25h^2}{h}=-1-0{,}25h\\;\\xrightarrow{h\\to 0}\\;-1')+'.', sol:['-1'], done:T("f'(4)=-1") },
+        { q:'Welche der drei Geraden ist die Tangente in P? Bestimme dazu ihre Steigungen mit Steigungsdreiecken.',
+          mc:[
+            {html:'Gerade a',msg:'Gerade a hat die Steigung −0,5. Die Tangente muss die Steigung '+T("f'(4)=-1")+' haben.'},
+            {html:'Gerade b',ok:true,msg:'Genau: Gerade b hat die Steigung −1 = '+T("f'(4)")+'. Sie berührt den Graphen in P.'},
+            {html:'Gerade c',msg:'Gerade c hat die Steigung −2. Die Tangente muss die Steigung '+T("f'(4)=-1")+' haben.'}
+          ], onOk:()=>{st.ok=true;}, done:'Gerade b ist die Tangente (Steigung −1).' } ] };
+  },
+  // G10 (schwer) Stelle mit vorgegebener Steigung berechnen
+  ()=>{ const f=x=>x*x, st={a:null};
+    const view=()=>{ const v={xmin:-3,xmax:4,ymin:-1,ymax:8,curves:[{f,color:'#1f5fbf'}],labels:[{text:'f: x ↦ x²',color:'#1f5fbf'}],lines:[],crosses:[],panel:'Gesucht: Punkt mit Tangentensteigung 3.'};
+      if(st.a!==null){ v.lines.push({x0:st.a,y0:f(st.a),m:3,color:'#d62828',w:2.4}); v.crosses.push({x:st.a,y:f(st.a),label:'P',color:'#d62828',big:true,ldx:-16}); v.tris=[{x:st.a,y:f(st.a),m:3,color:'#d62828'}]; v.labels.push({text:'Tangente mit m = 3',color:'#d62828'}); }
+      return v; };
+    return { view, head:'<b>Rückwärts denken.</b> In welchem Punkt hat der Graph von '+T('f(x)=x^2')+' die Steigung 3?',
+      steps:[
+        { q:'Berechne mit der h-Methode die Ableitung an einer <b>allgemeinen</b> Stelle '+T('a')+'. Gib '+T("f'(a)")+' als Term mit '+T('a')+' an.', fields:[{pre:T("f'(a)=\\lim\\limits_{h\\to 0}\\frac{(a+h)^2-a^2}{h}="),kind:'expr',ph:'Term mit a'}],
+          check:v=>exprCheck(v[0],'a',a=>2*a,{probe:3,wrong:[{f:a=>a*a,msg:'Das ist '+T('f(a)')+', nicht die Steigung.'},{f:a=>2*a+1,msg:'Für '+T('h\\to 0')+' fällt der Summand mit '+T('h')+' weg.'}],generic:'Noch nicht richtig.'}),
+          tip:T('(a+h)^2=a^2+2ah+h^2'), help:T('\\frac{2ah+h^2}{h}=2a+h\\;\\xrightarrow{h\\to 0}\\;2a'), sol:['2a'], done:T("f'(a)=2a") },
+        { q:'Für welches '+T('a')+' ist die Steigung 3?', fields:[{pre:T('a='),kind:'num'}],
+          check:v=>{ const a=parseNum(v[0]); if(close(a,1.5)){ st.a=1.5; return {ok:true,msg:T('2a=3\\Rightarrow a=1{,}5')+'. Der Punkt ist '+T('P(1{,}5\\,|\\,2{,}25)')+'.'}; } return {ok:false,msg:'Löse '+T('2a=3')+'.'}; },
+          tip:'Setze '+T("f'(a)=3")+'.', help:T('2a=3\\iff a=1{,}5'), sol:['1,5'], done:T('a=1{,}5')+', also '+T('P(1{,}5\\,|\\,2{,}25)') } ] };
+  }
+];
+// Reihenfolge nach Schwierigkeit
+(()=>{ const ord=[0,1,5,2,3,4,6,7,8,9]; const t=ord.map(i=>GTASKS[i]); GTASKS.splice(0,GTASKS.length,...t); })();
+const GLV=['leicht','leicht','leicht','mittel','mittel','mittel','mittel','schwer','schwer','schwer'];
+function dotsHtml(levels, cur, solved){
+  let h='<div class="dots">'; let last=null;
+  levels.forEach((l,k)=>{ if(l!==last){ if(last!==null) h+='</div><div class="dots">'; h+=`<span class="lvl lvl-${l}">${l}</span>`; last=l; }
+    h+=`<button class="dot ${k===cur?'on':''} ${solved[k]?'solved':''}" data-k="${k}">${k+1}</button>`; });
+  return h+'</div>';
+}
+function startGraph(){
+  const box=$('#tasks'); const n=GTASKS.length;
+  const done=GR.solved.filter(Boolean).length;
+  box.innerHTML=`<div class="card"><h2>③ Am Graphen arbeiten</h2>
+    ${dotsHtml(GLV,GR.i,GR.solved)}
+    <div class="progress"><div style="width:${100*done/n}%"></div></div>
+    <div class="muted">Aufgabe ${GR.i+1} von ${n} · ${GLV[GR.i]}</div></div><div class="card" id="runbox"></div>`;
+  box.querySelectorAll('.dot').forEach(b=>b.addEventListener('click',()=>{ GR.i=+b.dataset.k; startGraph(); }));
+  const g=GTASKS[GR.i]();
+  setView(g.view);
+  const last=g.steps[g.steps.length-1]; const oldOk=last.onOk;
+  last.onOk=()=>{ if(oldOk) oldOk(); GR.solved[GR.i]=true; const k=GR.i; const dot=document.querySelector(`.dot[data-k="${k}"]`); if(dot) dot.classList.add('solved'); const pr=document.querySelector('.progress>div'); if(pr) pr.style.width=(100*GR.solved.filter(Boolean).length/n)+'%'; };
+  const all=()=>GR.solved.filter(Boolean).length===n;
+  const task={ head:g.head, steps:g.steps,
+    finish:()=> all() ? `<h3>🎉 Geschafft!</h3>Du hast alle Aufgaben am Graphen gelöst.${GR.i<n-1?'<div class="btns" style="margin-top:8px"><button class="b go" id="nextT">Weiter</button></div>':'<div class="btns" style="margin-top:8px"><button class="b go" id="toAbi">Weiter zu den Abituraufgaben</button></div>'}`
+      : `<h3>✓ Richtig!</h3><div class="btns"><button class="b go" id="nextT">${GR.i<n-1?'Nächste Aufgabe':'Zur ersten offenen Aufgabe'}</button></div>`,
+    bind:el=>{ const b=el.querySelector('#nextT'); if(b) b.addEventListener('click',()=>task.next()); const a=el.querySelector('#toAbi'); if(a) a.addEventListener('click',()=>show('abi')); },
+    next:()=>{ if(GR.i<n-1) GR.i++; else { const k=GR.solved.findIndex(s=>!s); if(k<0) return; GR.i=k; } startGraph(); }
+  };
+  new Runner($('#runbox'), task);
+}
+
+/* ================= Teil 4: Abituraufgaben ================= */
+const ABI=[]; // wird unten gefüllt
+const AB={i:0, solved:[]};
+function startAbi(){
+  const box=$('#tasks'); const n=ABI.length;
+  const done=AB.solved.filter(Boolean).length;
+  box.innerHTML=`<div class="card"><h2>④ Abituraufgaben</h2>
+    <div class="muted" style="margin-bottom:6px">Teilaufgaben aus dem bayerischen Abitur und aus den Beispielaufgaben des ISB für das neue Abitur. Die Quelle steht jeweils über der Aufgabe.</div>
+    ${dotsHtml(ALV,AB.i,AB.solved)}
+    <div class="progress"><div style="width:${100*done/n}%"></div></div></div><div class="card" id="runbox"></div>`;
+  box.querySelectorAll('.dot').forEach(b=>b.addEventListener('click',()=>{ AB.i=+b.dataset.k; startAbi(); }));
+  const a=ABI[AB.i]();
+  setView(a.view);
+  const last=a.steps[a.steps.length-1]; const oldOk=last.onOk;
+  last.onOk=()=>{ if(oldOk) oldOk(); AB.solved[AB.i]=true; const dot=document.querySelector(`.dot[data-k="${AB.i}"]`); if(dot) dot.classList.add('solved'); const pr=document.querySelector('.progress>div'); if(pr) pr.style.width=(100*AB.solved.filter(Boolean).length/n)+'%'; };
+  const all=()=>AB.solved.filter(Boolean).length===n;
+  const task={ head:`<div class="src">${a.src}</div>${a.head}`, steps:a.steps,
+    finish:()=> all() ? `<h3>🎉 Geschafft!</h3>Du hast alle Abituraufgaben gelöst.${AB.i<n-1?'<div class="btns" style="margin-top:8px"><button class="b go" id="nextT">Weiter</button></div>':''}` : `<h3>✓ Richtig!</h3>${a.note||''}<div class="btns"><button class="b go" id="nextT">${AB.i<n-1?'Nächste Aufgabe':'Zur ersten offenen Aufgabe'}</button></div>`,
+    bind:el=>{ const b=el.querySelector('#nextT'); if(b) b.addEventListener('click',()=>task.next()); },
+    next:()=>{ if(AB.i<n-1) AB.i++; else { const k=AB.solved.findIndex(s=>!s); if(k<0) return; AB.i=k; } startAbi(); }
+  };
+  new Runner($('#runbox'), task);
+}
+
+/* ================= Teil 5: Rechentraining ohne Graph ================= */
+const RT_DEFAULT=[
+  {m:'x0',c:[0,0,1],x0:3},{m:'h',c:[0,0,2],x0:1},{m:'x0',c:[0,2,1],x0:-1},{m:'h',c:[0,0,0,1],x0:2},
+  {m:'x0',c:[0,-3,0.5],x0:2},{m:'h',c:[0,4,-1],x0:3},{m:'x0',c:[0,0,0,1],x0:-1},{m:'h',c:[0,-2,0,1],x0:1}
+];
+const RT={list:RT_DEFAULT, solved:[], fails:[]};
+function rtNew(){
+  const lv=['leicht','leicht','leicht','mittel','mittel','mittel','schwer','schwer'];
+  const used=new Set(); RT.list=lv.map((l,k)=>{ let e,x0,key; for(let t=0;t<30;t++){ e=pick(POOL[l]); x0=pick(e.xs); key=e.c.join()+'|'+x0; if(!used.has(key)) break; } used.add(key); return {m:k%2?'h':'x0',c:e.c,x0}; });
+  RT.solved=[]; RT.fails=[]; startRT();
+}
+function rtPath(t){ const f0=pe(t.c,t.x0), fp=pe(pder(t.c),t.x0); COLOR_X0=false; try{ return (t.m==='x0'?stepsX0(t.c,t.x0,f0,fp):stepsH(t.c,t.x0,f0,fp)).map(s=>s.done).join('<br>'); } finally { COLOR_X0=true; } }
+function startRT(){
+  setView(null);
+  const L='abcdefghij';
+  let h=`<div class="card"><h2>⑤ Rechentraining</h2><div class="muted">Rechne jede Teilaufgabe im Heft mit der angegebenen Methode. Gib nur das Ergebnis ein und prüfe.</div>
+    <div class="progress"><div style="width:${100*RT.solved.filter(Boolean).length/RT.list.length}%"></div></div>
+    <div class="btns"><button class="b" id="rtNew">🔄 Neue Aufgaben</button></div></div><div class="card" id="rtbox">`;
+  RT.list.forEach((t,k)=>{
+    const x0t = tn(t.x0);
+    h+=`<div class="step" data-k="${k}"><span class="num" style="${RT.solved[k]?'background:var(--green)':''}">${L[k]}</span>
+      Berechne mit der <b>${t.m==='x0'?'x₀':'h'}-Methode</b> die Ableitung von ${T(fTex(t.c))} an der Stelle ${T('x_0='+x0t)}.
+      <div class="row">${T(`f'(${x0t})=`)}<input class="f" inputmode="decimal" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" ${RT.solved[k]?'disabled':''}>
+      ${RT.solved[k]?'':'<button class="b main" data-a="check">Prüfen</button>'}</div>
+      <div class="fb"></div></div>`;
+  });
+  h+='</div>';
+  $('#tasks').innerHTML=h;
+  $('#rtNew').addEventListener('click',rtNew);
+  document.querySelectorAll('#rtbox .step').forEach(el=>{
+    const k=+el.dataset.k, inp=el.querySelector('input.f'), btn=el.querySelector('[data-a=check]');
+    if(RT.solved[k]){ inp.value=num(pe(pder(RT.list[k].c),RT.list[k].x0)); inp.classList.add('ok'); rtShow(el,k,true); }
+    if(btn) btn.addEventListener('click',()=>rtCheck(k));
+    inp.addEventListener('keydown',e=>{ if(e.key==='Enter'&&!e.ctrlKey&&!e.metaKey){ e.preventDefault(); rtCheck(k); } });
+  });
+  RUN={ solveNext:()=>{ const k=RT.list.findIndex((_,j)=>!RT.solved[j]); if(k<0) return; const el=document.querySelector(`#rtbox .step[data-k="${k}"]`); el.querySelector('input.f').value=num(pe(pder(RT.list[k].c),RT.list[k].x0)).replace('−','-'); rtCheck(k); }, check:()=>{} };
+}
+function rtShow(el,k,ok){
+  const t=RT.list[k], fb=el.querySelector('.fb');
+  if(ok){ fb.className='fb ok'; fb.innerHTML='✓ Richtig! <details style="margin-top:4px"><summary>Rechenweg vergleichen</summary>'+rtPath(t)+'</details>'; return; }
+}
+function rtCheck(k){
+  const t=RT.list[k], el=document.querySelector(`#rtbox .step[data-k="${k}"]`), inp=el.querySelector('input.f'), fb=el.querySelector('.fb');
+  if(!inp.value.trim()){ fb.className='fb bad'; fb.innerHTML='Bitte zuerst ein Ergebnis eingeben.'; return; }
+  const a=parseNum(inp.value), f0=pe(t.c,t.x0), fp=pe(pder(t.c),t.x0);
+  if(close(a,fp)){ RT.solved[k]=true; inp.className='f ok'; inp.disabled=true; const b=el.querySelector('[data-a=check]'); if(b) b.remove(); el.querySelector('.num').style.background='var(--green)'; rtShow(el,k,true);
+    const pr=document.querySelector('.progress>div'); if(pr) pr.style.width=(100*RT.solved.filter(Boolean).length/RT.list.length)+'%';
+    if(RT.solved.filter(Boolean).length===RT.list.length){ const box=$('#rtbox'); box.insertAdjacentHTML('beforeend','<div class="finish"><h3>🎉 Geschafft!</h3>Alle Teilaufgaben richtig. Für weitere Aufgaben: „Neue Aufgaben“.</div>'); }
+    return; }
+  RT.fails[k]=(RT.fails[k]||0)+1; inp.className='f bad';
+  let msg='✗ Noch nicht richtig.';
+  if(close(a,f0)) msg+=' Das ist der Funktionswert '+T(`f(${tn(t.x0)})`)+', nicht die Steigung.';
+  else if(close(a,-fp)) msg+=' Prüfe das Vorzeichen.';
+  msg+='<br>💡 '+(t.m==='x0' ? 'Schritte: '+T('f(x_0)')+' berechnen → '+T('\\frac{f(x)-f(x_0)}{x-x_0}')+' aufstellen → Zähler faktorisieren und kürzen → '+T('x\\to x_0') : 'Schritte: '+T('f(x_0+h)')+' ausmultiplizieren → '+T('f(x_0)')+' abziehen → '+T('h')+' ausklammern und kürzen → '+T('h\\to 0'));
+  if(RT.fails[k]>=2) msg+='<details style="margin-top:6px"><summary><b>Lösung anzeigen</b></summary>'+rtPath(t)+'</details>';
+  fb.className='fb bad'; fb.innerHTML=msg;
+}
+
+/* ================= Navigation ================= */
+let PART='x0';
+function show(part){
+  PART=part; document.querySelectorAll('#nav .pill').forEach(b=>b.classList.toggle('on',b.dataset.part===part));
+  if(part==='x0'||part==='h') startMethod(part); else if(part==='graph') startGraph(); else if(part==='rt') startRT(); else startAbi();
+  if(window.innerWidth<=860) window.scrollTo({top:0});
+}
+document.querySelectorAll('#nav .pill').forEach(b=>b.addEventListener('click',()=>show(b.dataset.part)));
+/* Lehrer-Shortcut: Strg/Cmd + Umschalt + Enter löst den nächsten Schritt */
+document.addEventListener('keydown',e=>{ if((e.ctrlKey||e.metaKey)&&e.shiftKey&&e.key==='Enter'){ e.preventDefault(); e.stopPropagation(); if(RUN) RUN.solveNext(); } }, true);
+window.addEventListener('resize',()=>redraw());
+</script>
+<script>
+
+/* Quellen: ISB Bayern (isb.bayern.de), Abiturprüfungen Mathematik und Illustrierende Prüfungsaufgaben ab 2026 */
+ABI.push(
+  // 1) Abitur 2024 Teil A, Aufgabe 1a
+  ()=>{ const c=[0,3,0,8];
+    return { src:'Abitur Bayern 2024 · Prüfungsteil A (ohne Hilfsmittel) · Analysis, Aufgabe 1a · 2 BE', view:null,
+      head:'Gegeben ist die in '+T('\\mathbb{R}')+' definierte Funktion '+T('f\\colon x\\mapsto 8x^3+3x')+'.<div class="ctx">„Berechnen Sie '+T("f'(1)")+'.“</div><span class="muted">Du kennst noch keine Ableitungsregel? Kein Problem: Mit der h-Methode geht es auch.</span>',
+      steps:[{ q:'Berechne '+T("f'(1)")+'.', fields:[{pre:T("f'(1)="),kind:'num'}],
+        check:v=>{ const a=parseNum(v[0]); if(close(a,27)) return {ok:true,msg:T("f'(1)=27")+'. Der Graph von '+T('f')+' hat an der Stelle 1 die Steigung 27.'}; if(close(a,11)) return {ok:false,msg:'Das ist '+T('f(1)')+', also der Funktionswert. Gesucht ist die Steigung '+T("f'(1)")+'.'}; if(close(a,24)) return {ok:false,msg:'Fast: Der Summand '+T('3x')+' hat auch eine Steigung.'}; return {ok:false,msg:'Noch nicht richtig. Nutze die h-Methode (Tipp) oder die Ableitungsregeln.'}; },
+        tip:'h-Methode: '+T('\\lim\\limits_{h\\to 0}\\frac{f(1+h)-f(1)}{h}')+' mit '+T('(1+h)^3=1+3h+3h^2+h^3')+'.',
+        help:T('f(1+h)=8(1+h)^3+3(1+h)=11+27h+24h^2+8h^3')+'<br>'+T('\\frac{f(1+h)-f(1)}{h}=\\frac{27h+24h^2+8h^3}{h}=27+24h+8h^2\\;\\xrightarrow{h\\to 0}\\;27')+'<br><span class="muted">Mit den Ableitungsregeln: '+T("f'(x)=24x^2+3")+', also '+T("f'(1)=27")+'.</span>',
+        sol:['27'], done:T("f'(1)=27") }] };
+  },
+  // 2) Abitur 2024 Teil A, Aufgabe 4a (Tangente aus Abbildung) – abgeändert: nur Steigung
+  ()=>{ const f=x=>0.5*x*x, st={done:false};
+    const view=()=>({xmin:-3,xmax:6,ymin:-9,ymax:11,curves:[{f,color:'#1f5fbf'}],labels:[{text:'Graph von f',color:'#1f5fbf'},{text:'Tangente t',color:'#d62828'}],
+      lines:[{x0:4,y0:8,m:4,color:'#d62828'}],crosses:[{x:4,y:8,label:'P',big:true,ldx:-16,ldy:-6}],
+      tris:st.done?[{x:4,y:8,m:4,color:'#d62828'}]:[], panel:'Lies die Steigung der Tangente mit einem Steigungsdreieck ab.'});
+    return { src:'nach Abitur Bayern 2024 · Prüfungsteil A · Analysis, Aufgabe 4a (Funktion '+T('f_a')+' mit '+T('a=\\tfrac12')+'), abgeändert', view,
+      head:'Die Abbildung zeigt den Graphen der Funktion '+T('f\\colon x\\mapsto \\tfrac12 x^2')+' und die Tangente '+T('t')+' im Punkt '+T('P(4\\,|\\,f(4))')+'.<div class="ctx">Geben Sie anhand der Abbildung die Steigung der Tangente '+T('t')+' an.</div><span class="muted">Im Abitur war hier die ganze Tangentengleichung gefragt.</span>',
+      steps:[{ q:'Gib die Steigung der Tangente an.', fields:[{pre:T("m=f'(4)\\approx"),kind:'num'}],
+        check:v=>{ const m=parseNum(v[0]); if(close(m,4,0.2)) return {ok:true,msg:'1 nach rechts, 4 nach oben: '+T("f'(4)=4")+'.'}; if(close(m,0.25,0.05)) return {ok:false,msg:'Kehrwert! Steigung = Δy ÷ Δx.'}; if(close(m,8,0.2)) return {ok:false,msg:'Das ist der Funktionswert '+T('f(4)')+', nicht die Steigung.'}; return {ok:false,msg:'Gehe von P aus 1 nach rechts – wie weit musst du nach oben bis zur Tangente?'}; },
+        onOk:()=>{st.done=true;}, tip:'Steigungsdreieck an P zeichnen. Achtung: Auf der y-Achse steht nur jede zweite Zahl.',
+        help:'Von P(4 | 8) aus 1 nach rechts zu (5 | 8). Die Tangente ist dort bei '+T('y=12')+', also 4 höher: '+T('m=4')+'.', sol:['4'], done:'Steigung der Tangente: '+T("f'(4)=4") }] };
+  },
+  // 3) Abitur 2024 (CAS) Teil B, Aufgabengruppe 1, Aufgabe 1d und 1e (Seilbahn)
+  ()=>{ const c=[1.95,-0.5,0.2], g=x=>pe(c,x), st={sek:false,x:1.5,show:false,step:0};
+    const view=()=>{ const v={xmin:-0.5,xmax:5,ymin:-0.5,ymax:4.5,xname:'x',curves:[{f:x=>(x>=1&&x<=4)?g(x):NaN,color:'#1f5fbf',w:3.4}],labels:[{text:'Seil (oberer Abschnitt)',color:'#1f5fbf'}],lines:[],crosses:[{x:1,y:g(1),label:'Stütze',ldx:-8,ldy:-12},{x:4,y:g(4),label:'Bergstation',ldx:-12,ldy:-12}],segs:[{x1:1,y1:0,x2:1,y2:g(1),color:'#555',w:3,dash:false}]};
+      if(st.sek){ v.lines.push({x0:1,y0:g(1),m:0.5,color:'#e67e00',w:2}); v.labels.push({text:'Sekante: mittlere Steigung',color:'#e67e00'}); }
+      if(st.step>=1){ const m=0.4*st.x-0.5; v.lines.push({x0:st.x,y0:g(st.x),m,color:'#d62828',w:2.4}); v.crosses.push({x:st.x,y:g(st.x),label:'P',color:'#d62828',big:true,halo:'#d62828'}); v.tris=[{x:st.x,y:g(st.x),m,color:'#d62828',showM:st.show}];
+        v.drag={snap:0.05,min:1,max:4,set:x=>{st.x=x;}}; v.panel='<span class="hint-drag">Ziehe P auf dem Seil.</span> &nbsp; x = <b>'+num(st.x)+'</b> km'+(st.show?' · Steigung '+num(100*m,1)+' %':'');
+      } else v.panel='1 Einheit = 1 km (waagrecht und senkrecht).';
+      return v; };
+    return { src:'Abitur Bayern 2024 · Prüfungsteil B (CAS) · Analysis, Aufgabengruppe 1, Aufgabe 1d und 1e · 2 BE + 3 BE', view,
+      head:'Eine Seilbahn: Der Seilverlauf im oberen Abschnitt wird für '+T('1\\le x\\le 4')+' durch '+T('g(x)=0{,}2x^2-0{,}5x+1{,}95')+' beschrieben ('+T('x')+' und '+T('g(x)')+' in km; '+T('x=1')+': Seilstütze, '+T('x=4')+': Bergstation).<div class="ctx">d) „Ermitteln Sie die mittlere Steigung des Seilverlaufs im oberen Abschnitt.“<br>e) Berechnen Sie die horizontale Entfernung von der Seilstütze bis zu der Stelle, an der die Steigung des Seilverlaufs 50 % beträgt.</div><span class="muted">Aufgabenstellung e) sinngemäß gekürzt.</span>',
+      steps:[
+        { q:'d) Berechne die mittlere Steigung im Intervall '+T('[1;\\,4]')+' (in Prozent).', fields:[{pre:'',kind:'num',post:'%'}],
+          check:v=>{ const a=parseNum(v[0]); if(close(a,50,0.6)) return {ok:true,msg:T('\\frac{g(4)-g(1)}{4-1}=\\frac{3{,}15-1{,}65}{3}=0{,}5=50\\,\\%')}; if(close(a,0.5,0.01)) return {ok:false,msg:'Richtig gerechnet – gib das Ergebnis noch in Prozent an.'}; return {ok:false,msg:'Berechne den Differenzenquotienten '+T('\\frac{g(4)-g(1)}{4-1}')+'.'}; },
+          onOk:()=>{st.sek=true;}, tip:'Mittlere Steigung = Differenzenquotient = Sekantensteigung.', help:T('g(1)=1{,}65,\\; g(4)=3{,}15')+', also '+T('\\frac{3{,}15-1{,}65}{3}=0{,}5')+'.', sol:['50'], done:'mittlere Steigung '+T('0{,}5=50\\,\\%') },
+        { q:'e) Ziehe P an die Stelle, an der das Seil die Steigung 50 % hat. Tipp: Dort ist die Tangente parallel zur orangen Sekante.', enter:()=>{st.step=1;}, checkLabel:'Prüfen',
+          check:()=> Math.abs(st.x-2.5)<=0.1 ? {ok:true,msg:'Bei '+T('x\\approx 2{,}5')+' ist die Tangente parallel zur Sekante.'} : {ok:false,msg: st.x<2.5?'Hier ist das Seil noch zu flach – weiter nach rechts.':'Hier ist das Seil schon zu steil – weiter nach links.'},
+          solve:()=>{st.step=1; st.x=2.5;}, sol:[], onOk:()=>{st.show=true;}, tip:'Vergleiche die rote Tangente mit der orangen Sekante.', help:'Rechnerisch: '+T("g'(x)=0{,}4x-0{,}5=0{,}5")+' liefert '+T('x=2{,}5')+'.', done:'Steigung 50 % bei '+T('x=2{,}5')+'.' },
+        { q:'Wie weit ist diese Stelle horizontal von der Seilstütze entfernt?', fields:[{pre:'',kind:'num',post:'m'}],
+          check:v=>{ const a=parseNum(v[0]); if(close(a,1500,20)) return {ok:true,msg:T('2{,}5\\,\\text{km}-1\\,\\text{km}=1{,}5\\,\\text{km}=1500\\,\\text{m}')+'.'}; if(close(a,1.5,0.05)) return {ok:false,msg:'Richtig in km – gib das Ergebnis in Metern an.'}; if(close(a,2500,30)) return {ok:false,msg:'Die Seilstütze steht bei '+T('x=1')+', nicht bei '+T('x=0')+'.'}; return {ok:false,msg:'Abstand der x-Werte: Stelle minus Stütze.'}; },
+          tip:'Die Stütze steht bei '+T('x=1')+'.', help:T('2{,}5-1=1{,}5')+' km = 1500 m.', sol:['1500'], done:'Entfernung 1500 m' } ] };
+  },
+  // 4) Illustrierende Prüfungsaufgabe ab 2026, Teil B, B1 (Hund)
+  ()=>{ const c=[0,2.48,-0.43,0.02], f=x=>pe(c,x), fd=x=>0.06*x*x-0.86*x+2.48, st={x:7,step:0,tan10:false};
+    const view=()=>{ const ext=st.tan10;
+      const v={xmin:-1,xmax:ext?27:11,ymin:-1,ymax:6,curves:[{f:x=>(x>=0&&x<=10)?f(x):NaN,color:'#1f5fbf'}],labels:[{text:'f: x ↦ (2x³ − 43x² + 248x)/100',color:'#1f5fbf'}],lines:[],crosses:[{x:0,y:0},{x:10,y:1.8,label:'(10 | 1,8)',ldx:-6,ldy:-12}],segs:[]};
+      v.lines.push({x0:0,y0:0,m:0.18,color:'#e67e00',w:2}); 
+      if(st.step>=1&&!ext){ const m=fd(st.x); v.lines.push({x0:st.x,y0:f(st.x),m,color:'#d62828',w:2.4}); v.crosses.push({x:st.x,y:f(st.x),label:'P',color:'#d62828',big:true,halo:'#d62828'}); v.drag={snap:0.05,min:0,max:10,set:x=>{st.x=x;}}; v.panel='<span class="hint-drag">Ziehe P auf dem Graphen.</span> &nbsp; '+T('x_0')+' = <b>'+num(st.x)+'</b>'; }
+      else v.panel= ext ? 'Tangente t für '+T('x\\ge 10')+' (Modell A).' : 'Orange: Sekante durch '+T('(0\\,|\\,0)')+' und '+T('(10\\,|\\,1{,}8)')+'.';
+      if(ext){ v.curves.push({f:x=>(x>=10&&x<=25)?-0.12*x+3:NaN,color:'#d62828',w:3}); v.crosses.push({x:25,y:0,label:'25',color:'#d62828',ldx:-6,ldy:-12}); v.labels.push({text:'t: y = −0,12x + 3',color:'#d62828'}); }
+      return v; };
+    return { src:'Illustrierende Prüfungsaufgabe des ISB für das Abitur ab 2026 · Prüfungsteil B · Aufgabe B1, Teilaufgaben 1b, 1c, 3b · 3 + 4 + 2 BE', view,
+      head:'Gegeben ist die in '+T('\\mathbb{R}')+' definierte Funktion '+T('f\\colon x\\mapsto \\frac{1}{100}\\,(2x^3-43x^2+248x)')+'.<div class="ctx">1b) Es gibt eine Stelle '+T('x_0\\in[0;10]')+', „an der die lokale Änderungsrate von '+T('f')+' mit der mittleren Änderungsrate von '+T('f')+' im Intervall '+T('[0;10]')+' übereinstimmt. Ermitteln Sie grafisch […] einen Näherungswert für '+T('x_0')+'.“<br>1c) Bestimmen Sie die Steigung der Tangente '+T('t')+' an '+T('G_f')+' im Punkt '+T('(10\\,|\\,f(10))')+'.</div><span class="muted">Teilweise sinngemäß gekürzt; in 1c war im Original die Tangentengleichung gefragt.</span>',
+      steps:[
+        { q:'1b) Berechne zuerst die mittlere Änderungsrate von '+T('f')+' im Intervall '+T('[0;\\,10]')+'.', fields:[{pre:T('\\frac{f(10)-f(0)}{10-0}='),kind:'num'}],
+          check:v=>{ const a=parseNum(v[0]); if(close(a,0.18,0.005)) return {ok:true,msg:T('\\frac{1{,}8-0}{10}=0{,}18')+'. Das ist die Steigung der orangen Sekante.'}; if(close(a,1.8,0.01)) return {ok:false,msg:'Das ist '+T('f(10)')+'. Teile noch durch die Intervallbreite 10.'}; return {ok:false,msg:'Berechne '+T('f(10)')+' und '+T('f(0)')+' und bilde den Differenzenquotienten.'}; },
+          tip:T('f(10)=\\frac{1}{100}(2000-4300+2480)'), help:T('f(10)=\\frac{180}{100}=1{,}8,\\; f(0)=0')+', also '+T('\\frac{1{,}8}{10}=0{,}18')+'.', sol:['0,18'], done:'mittlere Änderungsrate '+T('0{,}18') },
+        { q:'Ziehe P an die Stelle '+T('x_0')+', an der die Tangente parallel zur Sekante ist, und prüfe.', enter:()=>{st.step=1;}, checkLabel:'Prüfen',
+          check:()=> Math.abs(st.x-3.56)<=0.15 ? {ok:true,msg:T('x_0\\approx 3{,}6')+' – hier ist die lokale Änderungsrate gleich 0,18.'} : (Math.abs(fd(st.x)-0.18)<0.06 ? {ok:true,msg:T('x_0\\approx 3{,}6')} : {ok:false,msg: fd(st.x)>0.18?'Die Tangente ist noch steiler als die Sekante.':'Die Tangente ist flacher als die Sekante (oder fällt).'}),
+          solve:()=>{st.step=1; st.x=3.55;}, sol:[], tip:'Parallel heißt: gleiche Steigung. Lege gedanklich ein Lineal parallel zur Sekante an den Graphen.', help:'Die Stelle liegt etwas links vom Hochpunkt, bei etwa '+T('x_0\\approx 3{,}6')+'.', done:T('x_0\\approx 3{,}6')+' (offizielle Lösung: '+T('x_0\\approx 3{,}6')+')' },
+        { q:'1c) Bestimme die Steigung der Tangente im Punkt '+T('(10\\,|\\,1{,}8)')+'. Es gilt '+T("f'(x)=\\frac{1}{100}(6x^2-86x+248)")+'.', enter:()=>{st.step=2;}, fields:[{pre:T("f'(10)="),kind:'num'}],
+          check:v=>{ const m=parseNum(v[0]); if(close(m,-0.12,0.001)) return {ok:true,msg:T("f'(10)=-0{,}12")+': Die Tangente fällt leicht.'}; if(close(m,1.8,0.01)) return {ok:false,msg:'Das ist der Funktionswert '+T('f(10)')+'. Setze 10 in '+T("f'(x)")+' ein.'}; return {ok:false,msg:'Setze '+T('x=10')+' in '+T("f'(x)")+' ein.'}; },
+          onOk:()=>{st.tan10=true;}, tip:'Setze '+T('x=10')+' in '+T("f'(x)")+' ein.', help:T("f'(10)=\\frac{600-860+248}{100}=-0{,}12")+'.', sol:['-0,12'], done:'Steigung der Tangente: '+T("f'(10)=-0{,}12") },
+        { q:'3b) Die Tangente aus 1c hat die Gleichung '+T('t\\colon y=-0{,}12x+3')+'. Im Sachzusammenhang beschreibt '+T('f(x)')+' (und für '+T('x\\ge 10')+' die Tangente '+T('t')+') die momentane Änderungsrate der Körpermasse eines jungen Hundes in kg pro Monat, '+T('x')+' in Monaten nach der Geburt. Berechne, wie viele Monate nach der Geburt der Hund erstmals nicht mehr an Körpermasse zunimmt.', fields:[{pre:'',kind:'num',post:'Monate'}],
+          check:v=>{ const a=parseNum(v[0]); if(close(a,25,0.01)) return {ok:true,msg:T('-0{,}12x+3=0\\Rightarrow x=25')+'. Ab 25 Monaten ist die Änderungsrate 0: Der Hund wächst nicht mehr.'}; return {ok:false,msg:'Die Masse nimmt nicht mehr zu, wenn die Änderungsrate 0 ist: '+T('-0{,}12x+3=0')+'.'}; },
+          tip:'Wann ist die Änderungsrate null?', help:T('-0{,}12x+3=0\\iff x=25'), sol:['25'], done:'nach 25 Monaten' } ] };
+  },
+  // 5) nach Abitur 2025 Teil A, Aufgabe 4b – abgeändert auf Parabel (Wurzelfunktion noch nicht bekannt)
+  ()=>{ const f=x=>x*x, st={xq:3, tan:false};
+    const view=()=>{ const same=Math.abs(st.xq-1)<1e-9, ms=same?null:(f(st.xq)-1)/(st.xq-1);
+      const v={xmin:-3,xmax:4,ymin:-1,ymax:10,curves:[{f,color:'#1f5fbf'}],labels:[{text:'G: Graph von f',color:'#1f5fbf'}].concat(st.tan?[{text:'Tangente in P: m = 2',color:'#d62828'}]:[]),
+        lines:(st.tan?[{x0:1,y0:1,m:2,color:'#d62828',dash:true,w:1.8}]:[]).concat(same?[]:[{x0:1,y0:1,m:ms,color:'#e67e00',w:2.2}]),
+        crosses:[{x:1,y:1,label:'P',big:true,ldx:-16,ldy:-8},{x:st.xq,y:f(st.xq),label:'Q',color:'#e67e00',big:true,halo:'#e67e00'}],
+        drag:{snap:0.05,min:-3,max:4,set:x=>{st.xq=x;}},
+        panel:'<span class="hint-drag">Ziehe Q auf G.</span> &nbsp; Steigung der Geraden PQ: '+(same?'<b style="color:#d62828">nicht definiert (Q = P)</b>':'<b style="color:#e67e00">'+num(ms)+'</b>')};
+      return v; };
+    return { src:'nach Abitur Bayern 2025 · Prüfungsteil A · Analysis, Aufgabe 4b · abgeändert (im Original mit einer Wurzelfunktion)', view,
+      head:'Betrachtet wird die Funktion '+T('f\\colon x\\mapsto x^2')+' mit dem Graphen '+T('G')+' und dem Punkt '+T('P(1\\,|\\,1)')+'.<div class="ctx">Betrachtet wird eine Gerade, die mit '+T('G')+' sowohl den Punkt P als auch einen weiteren Punkt gemeinsam hat. Geben Sie alle möglichen Steigungen dieser Gerade an.</div>',
+      steps:[
+        { q:'Berechne zuerst die Steigung der Tangente in P mit der h-Methode.', fields:[{pre:T("f'(1)="),kind:'num'}],
+          check:v=>{ const a=parseNum(v[0]); if(close(a,2)) return {ok:true,msg:T("f'(1)=2")}; if(close(a,1)) return {ok:false,msg:'Das ist der Funktionswert '+T('f(1)')+', nicht die Steigung.'}; return {ok:false,msg:'Rechne '+T('\\lim\\limits_{h\\to 0}\\frac{(1+h)^2-1}{h}')+'.'}; },
+          onOk:()=>{st.tan=true;}, tip:T('(1+h)^2=1+2h+h^2'), help:T('\\frac{(1+h)^2-1}{h}=\\frac{2h+h^2}{h}=2+h\\;\\xrightarrow{h\\to 0}\\;2'), sol:['2'], done:'Tangentensteigung '+T("f'(1)=2") },
+        { q:'Ziehe Q über den ganzen Graphen (links und rechts von P) und beobachte die Steigung von PQ. Welche Antwort stimmt?',
+          mc:[
+            {html:'alle reellen Zahlen außer '+T('2'),ok:true,msg:'Genau. Je nach Lage von Q ist jede Steigung möglich. Nur '+T('m=2')+' nicht: Diese Gerade ist die Tangente und hat mit '+T('G')+' nur P gemeinsam.'},
+            {html:'alle reellen Zahlen',msg:'Fast. Gibt es eine Gerade mit Steigung 2 durch P, die G noch ein zweites Mal trifft? Schau dir die Tangente an.'},
+            {html:'nur positive Zahlen',msg:'Ziehe Q nach links, z. B. auf '+T('x=-2')+'. Welches Vorzeichen hat die Steigung dann?'},
+            {html:'alle Zahlen außer '+T('0'),msg:'Ziehe Q auf '+T('x=-1')+': Dann ist PQ waagrecht, die Steigung ist also 0.'}
+          ], done:'Mögliche Steigungen: alle '+T('m\\neq 2') } ] };
+  }
+);
+(()=>{ const ord=[1,0,2,3,4]; const t=ord.map(i=>ABI[i]); ABI.splice(0,ABI.length,...t); })();
+const ALV=['leicht','mittel','mittel','schwer','schwer'];
+
+</script>
+<script>show('x0');</script>
+</body>
+</html>
